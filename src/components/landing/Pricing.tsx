@@ -2,6 +2,7 @@
 
 import { Check, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import { CtaButton } from "@/components/ui/cta-button";
 import { cn } from "@/lib/utils";
 import { SectionFullInner, SectionPanel } from "./SectionPanel";
 import { PricingShaderCanvas } from "./PricingShaderCanvas";
@@ -112,7 +113,7 @@ function BillingToggle({
           className={cn(
             "rounded-full px-5 py-2 text-sm font-semibold transition-all",
             billing === "mensal"
-              ? "bg-white/95 text-black shadow-sm"
+              ? "bg-white/12 text-white shadow-sm ring-1 ring-cyan-400/35"
               : "text-white/70 hover:text-white",
           )}
         >
@@ -124,7 +125,7 @@ function BillingToggle({
           className={cn(
             "rounded-full px-5 py-2 text-sm font-semibold transition-all",
             billing === "anual"
-              ? "bg-white/95 text-black shadow-sm"
+              ? "bg-white/12 text-white shadow-sm ring-1 ring-cyan-400/35"
               : "text-white/70 hover:text-white",
           )}
         >
@@ -132,7 +133,7 @@ function BillingToggle({
           <span
             className={cn(
               "text-xs font-medium",
-              billing === "anual" ? "text-emerald-600" : "text-emerald-300",
+              billing === "anual" ? "text-emerald-300" : "text-emerald-300",
             )}
           >
             (Economize até 20%)
@@ -245,9 +246,9 @@ function EnterpriseCard({ billing }: { billing: BillingCycle }) {
           <MessageCircle className="size-4" />
           Falar com consultor
         </a>
-        <button type="button" className="btn-primary h-11 w-full normal-case tracking-normal">
+        <CtaButton fullWidth size="sm">
           Assinar
-        </button>
+        </CtaButton>
       </div>
     </article>
   );
@@ -263,7 +264,7 @@ function PlanCard({ plan, billing }: { plan: PlanConfig; billing: BillingCycle }
       )}
     >
       {plan.highlightBadge && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-black shadow-lg">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
           {plan.highlightBadge}
         </div>
       )}
@@ -307,17 +308,9 @@ function PlanCard({ plan, billing }: { plan: PlanConfig; billing: BillingCycle }
             {plan.secondaryCta}
           </button>
         )}
-        <button
-          type="button"
-          className={cn(
-            "h-11 w-full rounded-xl text-sm font-bold text-white transition-all hover:brightness-110",
-            plan.highlight
-              ? "bg-gradient-to-r from-orange-500 to-orange-600 shadow-[0_0_24px_-6px_rgba(251,146,60,0.5)]"
-              : "bg-gradient-to-r from-orange-500 to-orange-600",
-          )}
-        >
+        <CtaButton fullWidth size="sm" showArrow={false}>
           {plan.primaryCta}
-        </button>
+        </CtaButton>
       </div>
     </article>
   );

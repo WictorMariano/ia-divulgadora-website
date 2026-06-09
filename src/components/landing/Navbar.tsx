@@ -1,4 +1,5 @@
 import { Logo } from "./Logo";
+import { CtaButton } from "@/components/ui/cta-button";
 
 const links = [
   { href: "#modos", label: "Recursos" },
@@ -28,12 +29,9 @@ export function Navbar() {
           ))}
         </div>
 
-        <a
-          href="#planos"
-          className="inline-flex h-9 items-center justify-center rounded-lg bg-gradient-to-r from-cta to-orange-600 px-4 text-sm font-semibold text-white shadow-[0_0_24px_-6px] shadow-cta/60 transition-all hover:brightness-110"
-        >
+        <CtaButton href="#planos" size="sm" showArrow={false}>
           Começar gratuitamente
-        </a>
+        </CtaButton>
       </div>
     </nav>
   );

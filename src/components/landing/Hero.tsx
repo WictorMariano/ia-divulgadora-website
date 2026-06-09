@@ -1,5 +1,6 @@
-import { ArrowRight, Play, Star, Zap } from "lucide-react";
+import { Play, Star, Zap } from "lucide-react";
 import heroBg from "@/assets/hero-bg-v2.png";
+import { CtaButton } from "@/components/ui/cta-button";
 import { Logo } from "./Logo";
 
 const reviewers = [
@@ -53,13 +54,9 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href="#planos"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cta to-orange-600 px-6 text-sm font-bold uppercase tracking-wide text-white shadow-[0_0_32px_-6px] shadow-cta/60 transition-all hover:brightness-110"
-            >
+            <CtaButton href="#planos" size="lg">
               Começar gratuitamente
-              <ArrowRight className="size-4" />
-            </a>
+            </CtaButton>
             <a
               href="https://www.youtube.com/shorts/B4oYfx34xBw"
               target="_blank"

@@ -228,28 +228,18 @@ function ModeTab({
     <button
       type="button"
       onClick={onClick}
-      className={cn(
-        "w-full rounded-xl p-px text-left transition-all",
-        active
-          ? "bg-gradient-to-r from-sky-400/80 to-orange-400/80"
-          : "bg-white/10 hover:bg-white/15",
-      )}
+      className={cn("mode-tab flex items-center gap-3", active ? "mode-tab--active" : "mode-tab--inactive")}
     >
-      <div
-        className={cn(
-          "flex items-center gap-3 rounded-[11px] px-4 py-3.5",
-          active ? "bg-[#0f1419]" : "bg-[#0a0e16]/90 opacity-80",
-        )}
-      >
-        <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", accent.icon)}>
-          <Icon className="size-5" strokeWidth={1.75} />
-        </div>
-        <div className="min-w-0">
-          <p className={cn("text-xs font-bold", active ? "text-white" : "text-zinc-400")}>
-            {mode.tabNumber} {mode.tabTitle}
-          </p>
-          <p className="truncate text-[11px] text-zinc-500">{mode.tabSubtitle}</p>
-        </div>
+      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", accent.icon)}>
+        <Icon className="size-5" strokeWidth={1.75} />
+      </div>
+      <div className="min-w-0">
+        <p className={cn("text-xs font-bold", active ? "text-white" : "on-dark-copy-muted")}>
+          {mode.tabNumber} {mode.tabTitle}
+        </p>
+        <p className={cn("truncate text-[11px]", active ? "text-white/70" : "on-dark-copy-subtle")}>
+          {mode.tabSubtitle}
+        </p>
       </div>
     </button>
   );
@@ -313,79 +303,81 @@ function ModePanel({ mode }: { mode: ModeConfig }) {
   const accent = accentMap[mode.accent];
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
-      <div className="flex flex-col">
-        <p className={cn("text-[11px] font-bold uppercase tracking-[0.14em]", accent.label)}>
-          {mode.modeLabel}
-        </p>
-        <h3 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-          {mode.headline}{" "}
-          <span className={accent.highlight}>{mode.headlineHighlight}</span>
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-zinc-400">{mode.description}</p>
+    <div className="on-dark-copy flex flex-col gap-8 lg:gap-10">
+      <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+        <div className="flex flex-col">
+          <p className={cn("text-[11px] font-bold uppercase tracking-[0.14em]", accent.label)}>
+            {mode.modeLabel}
+          </p>
+          <h3 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+            {mode.headline}{" "}
+            <span className={accent.highlight}>{mode.headlineHighlight}</span>
+          </h3>
+          <p className="on-dark-copy-muted mt-3 text-sm leading-relaxed">{mode.description}</p>
 
-        <ul className="mt-6 space-y-3">
-          {mode.features.map(({ icon: Icon, text }) => (
-            <li key={text} className="flex items-center gap-3">
-              <div className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", accent.featureIcon)}>
-                <Icon className="size-4" strokeWidth={2} />
-              </div>
-              <span className="text-sm text-zinc-200">{text}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className={cn("mt-8 rounded-2xl border bg-gradient-to-br p-5", accent.stats)}>
-          <p className="mb-4 text-sm font-semibold text-white">{mode.statsTitle}</p>
-          <div className="grid grid-cols-2 gap-4">
-            {mode.stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="text-xl font-bold text-white">{stat.value}</p>
-                <p className="text-[11px] text-zinc-300">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-          {mode.flow.map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <div key={step.label} className="flex items-center gap-1">
-                <div className="flex flex-col items-center gap-1.5">
-                  <div className={cn("flex size-9 items-center justify-center rounded-full", step.color)}>
-                    <Icon className="size-4" strokeWidth={2} />
-                  </div>
-                  <span className="max-w-[4.5rem] text-center text-[9px] leading-tight text-zinc-400">
-                    {step.label}
-                  </span>
+          <ul className="mt-6 space-y-3">
+            {mode.features.map(({ icon: Icon, text }) => (
+              <li key={text} className="flex items-center gap-3">
+                <div className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", accent.featureIcon)}>
+                  <Icon className="size-4" strokeWidth={2} />
                 </div>
-                {i < mode.flow.length - 1 && (
-                  <div className="mb-4 hidden h-px w-4 border-t border-dotted border-zinc-600 sm:block" />
-                )}
-              </div>
-            );
-          })}
+                <span className="text-sm text-white/90">{text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
-          <OfferMockup />
-          <div className="hidden justify-center sm:flex">
-            <div className="flex size-9 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
-              <ChevronRight className="size-5" strokeWidth={2.5} />
-              <ChevronRight className="-ml-3 size-5" strokeWidth={2.5} />
-            </div>
+        <div>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+            {mode.flow.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.label} className="flex items-center gap-1">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div className={cn("flex size-9 items-center justify-center rounded-full", step.color)}>
+                      <Icon className="size-4" strokeWidth={2} />
+                    </div>
+                    <span className="on-dark-copy-subtle max-w-[4.5rem] text-center text-[9px] leading-tight">
+                      {step.label}
+                    </span>
+                  </div>
+                  {i < mode.flow.length - 1 && (
+                    <div className="mb-4 hidden h-px w-4 border-t border-dotted border-white/20 sm:block" />
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <WhatsAppMockup />
-        </div>
 
-        <p className="mt-6 text-center text-sm text-zinc-400 sm:text-left">
-          {mode.footerText}{" "}
-          <span className="font-semibold text-orange-400">{mode.footerHighlight}</span>
-        </p>
+          <div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
+            <OfferMockup />
+            <div className="hidden justify-center sm:flex">
+              <div className="flex size-9 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
+                <ChevronRight className="size-5" strokeWidth={2.5} />
+                <ChevronRight className="-ml-3 size-5" strokeWidth={2.5} />
+              </div>
+            </div>
+            <WhatsAppMockup />
+          </div>
+        </div>
       </div>
+
+      <div className={cn("w-full rounded-2xl border bg-gradient-to-br p-6 md:p-8", accent.stats)}>
+        <p className="mb-5 text-sm font-semibold text-white md:mb-6 md:text-base">{mode.statsTitle}</p>
+        <div className="grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 md:gap-4">
+          {mode.stats.map((stat) => (
+            <div key={stat.label} className="rounded-xl bg-black/15 px-3 py-4 text-center md:px-4 md:py-5 md:text-left">
+              <p className="text-2xl font-bold text-white md:text-3xl">{stat.value}</p>
+              <p className="mt-1 text-[11px] text-white/80 md:text-sm">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="on-dark-copy-muted text-center text-sm sm:text-base">
+        {mode.footerText}{" "}
+        <span className="font-semibold text-orange-400">{mode.footerHighlight}</span>
+      </p>
     </div>
   );
 }
@@ -455,7 +447,7 @@ function ControlDetails() {
                 </div>
                 <div className="min-w-0 pt-0.5">
                   <h4 className="text-base font-bold text-white">{card.title}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">{card.description}</p>
+                  <p className="on-dark-copy-muted mt-2 text-sm leading-relaxed">{card.description}</p>
                 </div>
               </div>
             </article>
@@ -471,10 +463,14 @@ export function Modes() {
   const activeMode = modes.find((m) => m.id === activeId) ?? modes[0];
 
   return (
-    <section id="modos" className="site-section-alt relative overflow-hidden border-t border-white/8 py-16 md:py-24">
+    <section id="modos" className="site-section relative overflow-hidden border-t border-white/8 py-16 md:py-24">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,oklch(0.45_0.1_250/0.1),transparent)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_0%_0%,rgb(56_189_248/0.1),transparent_55%)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_100%_100%,rgb(251_146_60/0.08),transparent_50%)]"
       />
 
       <SectionContainer>
@@ -495,7 +491,7 @@ export function Modes() {
             </span>
             ?
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-400 sm:text-base">
+          <p className="on-dark-copy-muted mx-auto mt-3 max-w-xl text-sm sm:text-base">
             Quatro formas poderosas de automatizar suas vendas de afiliado
           </p>
         </div>
@@ -511,7 +507,7 @@ export function Modes() {
           ))}
         </div>
 
-        <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.02] p-5 md:mt-6 md:p-8">
+        <div className="mt-4 rounded-2xl border border-white/10 bg-[#0a0f18]/90 p-5 backdrop-blur-sm md:mt-6 md:p-8">
           <ModePanel mode={activeMode} />
         </div>
 

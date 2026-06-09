@@ -242,7 +242,7 @@ export function AffiliateReality() {
               <ul className="mt-4 space-y-2.5">
                 {withAutomation.map((item) => (
                   <li key={item} className="flex items-center gap-2 text-xs text-zinc-300">
-                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-sky-500 text-black">
+                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white">
                       <Check className="size-2.5" strokeWidth={3} />
                     </span>
                     {item}

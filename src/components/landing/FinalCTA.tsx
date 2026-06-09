@@ -1,4 +1,5 @@
 import { SectionContainer } from "./SectionContainer";
+import { CtaButton } from "@/components/ui/cta-button";
 
 export function FinalCTA() {
   return (
@@ -16,9 +17,9 @@ export function FinalCTA() {
           <p className="mx-auto mb-10 max-w-lg text-pretty text-sm text-zinc-200">
             Junte-se a mais de 1.560 afiliados que escalaram suas operações com a IA Divulgadora.
           </p>
-          <a href="#planos" className="btn-primary h-12 px-8">
+          <CtaButton href="#planos" size="lg">
             Garantir meu acesso
-          </a>
+          </CtaButton>
         </div>
       </SectionContainer>
     </section>
