@@ -12,7 +12,7 @@ import {
   Search,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { SectionContainer } from "./SectionContainer";
 import dashboard1 from "@/assets/dashboard-1.png";
@@ -32,47 +32,110 @@ const slides = [
 const features = [
   {
     icon: Users,
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/15",
+    theme: "emerald",
     title: "Leads únicos reais",
     desc: "Sem contar a mesma pessoa em vários grupos",
   },
   {
     icon: Coins,
-    color: "text-orange-400",
-    bg: "bg-orange-500/15",
+    theme: "orange",
     title: "CPL real",
     desc: "Sem incluir quem entrou e saiu no mesmo dia",
   },
   {
     icon: LineChart,
-    color: "text-violet-400",
-    bg: "bg-violet-500/15",
+    theme: "violet",
     title: "Retenção e LTV",
     desc: "Veja quais grupos seguram mais leads e geram valor",
   },
   {
     icon: ArrowUpRight,
-    color: "text-pink-400",
-    bg: "bg-pink-500/15",
+    theme: "pink",
     title: "Movimentação completa",
     desc: "Acompanhe entradas e saídas com histórico",
   },
   {
     icon: Bell,
-    color: "text-rose-400",
-    bg: "bg-rose-500/15",
+    theme: "rose",
     title: "Alerta de lotação",
     desc: "Saiba antes de abrir outro grupo e perder leads",
   },
   {
     icon: Search,
-    color: "text-sky-400",
-    bg: "bg-sky-500/15",
+    theme: "sky",
     title: "Raio-X por grupo",
     desc: "Ativos, DDDs e desempenho individual de cada grupo",
   },
-];
+] as const;
+
+function PlatformFeatures() {
+  const listRef = useRef<HTMLUListElement>(null);
+  const [activeDot, setActiveDot] = useState(0);
+
+  const scrollToFeature = (index: number) => {
+    setActiveDot(index);
+    const list = listRef.current;
+    const item = list?.children.item(index) as HTMLElement | null;
+    if (!item || !list) return;
+    list.scrollTo({ left: item.offsetLeft - list.offsetLeft, behavior: "smooth" });
+  };
+
+  const handleScroll = () => {
+    const list = listRef.current;
+    if (!list) return;
+    const items = Array.from(list.children) as HTMLElement[];
+    const center = list.scrollLeft + list.clientWidth / 2;
+    let closest = 0;
+    let minDistance = Number.POSITIVE_INFINITY;
+    items.forEach((item, index) => {
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      const distance = Math.abs(center - itemCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = index;
+      }
+    });
+    setActiveDot(closest);
+  };
+
+  return (
+    <div className="nova-plataforma-features mt-12 md:mt-14">
+      <div className="nova-plataforma-features__dots">
+        {features.map((feature, index) => (
+          <button
+            key={feature.title}
+            type="button"
+            aria-label={`Destacar ${feature.title}`}
+            onClick={() => scrollToFeature(index)}
+            className={cn(
+              "nova-plataforma-features__dot",
+              index === activeDot && "nova-plataforma-features__dot--active",
+            )}
+          />
+        ))}
+      </div>
+
+      <ul ref={listRef} onScroll={handleScroll} className="nova-plataforma-features__list">
+        {features.map(({ icon: Icon, theme, title, desc }) => (
+          <li key={title} className="nova-plataforma-features__item">
+            <div
+              className={cn(
+                "nova-plataforma-features__icon",
+                `nova-plataforma-features__icon--${theme}`,
+              )}
+            >
+              <Icon className="size-4" strokeWidth={2} />
+            </div>
+            <div className="min-w-0">
+              <p className="nova-plataforma-features__title">{title}</p>
+              <p className="nova-plataforma-features__desc">{desc}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 function PlatformCarousel() {
   const [index, setIndex] = useState(0);
@@ -118,7 +181,7 @@ function PlatformCarousel() {
               <img
                 src={slides[index].src}
                 alt={slides[index].alt}
-                className="block w-full h-auto"
+                className="block h-auto w-full"
               />
             </div>
           </div>
@@ -185,26 +248,7 @@ export function NovaPlataforma() {
         </div>
 
         <PlatformCarousel />
-
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {features.map(({ icon: Icon, color, bg, title, desc }) => (
-            <div key={title} className="flex flex-col items-center text-center">
-              <div
-                className={cn(
-                  "flex size-10 items-center justify-center rounded-full",
-                  bg,
-                  color,
-                )}
-              >
-                <Icon className="size-4" strokeWidth={2} />
-              </div>
-              <p className="mt-2.5 text-xs font-bold text-white sm:text-sm">{title}</p>
-              <p className="on-dark-copy-muted mt-1 text-[10px] leading-snug sm:text-[11px]">
-                {desc}
-              </p>
-            </div>
-          ))}
-        </div>
+        <PlatformFeatures />
 
         <div className="mt-10 flex justify-center md:mt-12">
           <a

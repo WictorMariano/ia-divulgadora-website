@@ -195,9 +195,9 @@ export function MultiConnection() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full overflow-visible px-1 py-10 sm:py-11 lg:mx-0 lg:w-[108%] lg:max-w-none lg:py-12">
+          <div className="relative mx-auto w-full max-w-full px-1 py-10 sm:py-11 lg:mx-0 lg:py-12">
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-1 animate-float-gentle sm:mb-1.5"
+              className="pointer-events-none absolute inset-x-0 bottom-full z-20 mb-1 max-w-full animate-float-gentle sm:mb-1.5"
               style={{ animationDelay: "0s" }}
             >
               <HandwrittenCaption color="green" direction="up">
@@ -205,7 +205,7 @@ export function MultiConnection() {
               </HandwrittenCaption>
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0c1018] p-2 shadow-[0_0_50px_-20px_rgba(56,189,248,0.35)] lg:scale-[1.04] lg:origin-center">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0c1018] p-2 shadow-[0_0_50px_-20px_rgba(56,189,248,0.35)]">
               <div className="overflow-hidden rounded-xl border border-white/5 bg-white">
                 <img
                   src={multiconexaoImg}

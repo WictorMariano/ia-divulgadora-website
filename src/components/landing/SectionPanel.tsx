@@ -31,9 +31,7 @@ export function SectionPanel({
         className={cn("section-full-bleed", `section-full-bleed--${variant}`, className)}
         {...props}
       >
-        <div className={cn("section-panel section-panel--full", `section-panel--${variant}`)}>
-          {children}
-        </div>
+        {children}
       </section>
     );
   }

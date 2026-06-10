@@ -109,9 +109,7 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
 
   return (
     <section id="faq" className="section-full-bleed section-full-bleed--faq">
-      <div className="section-panel section-panel--full section-panel--faq">
-        <SectionFullInner className="relative z-10 py-14 md:py-20">{content}</SectionFullInner>
-      </div>
+      <SectionFullInner className="relative z-10 py-14 md:py-20">{content}</SectionFullInner>
     </section>
   );
 }

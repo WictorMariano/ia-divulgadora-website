@@ -36,11 +36,9 @@ export function ClosingCta({ embedded = false }: ClosingCtaProps) {
 
   return (
     <section className="section-full-bleed section-full-bleed--cta">
-      <div className="section-panel section-panel--full section-panel--cta">
-        <SectionFullInner className="relative z-10 py-14 text-center md:py-16">
-          {content}
-        </SectionFullInner>
-      </div>
+      <SectionFullInner className="relative z-10 py-14 text-center md:py-16">
+        {content}
+      </SectionFullInner>
     </section>
   );
 }

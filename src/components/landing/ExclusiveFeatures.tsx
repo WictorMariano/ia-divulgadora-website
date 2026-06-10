@@ -8,7 +8,12 @@ import {
   Timer,
   Zap,
 } from "lucide-react";
+import { CarouselItem } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import {
+  ExclusiveFeaturesCarousel,
+  useExclusiveCarouselPause,
+} from "./ExclusiveFeaturesCarousel";
 import { SectionContainer } from "./SectionContainer";
 import intervalosImg from "@/assets/intervalos-config.jpg";
 import furaFilaImg from "@/assets/furafila-config222.jpg";
@@ -218,13 +223,16 @@ function FeatureMockup({ type }: { type: NonNullable<ExclusiveFeature["mockup"]>
 function FeatureCard({ feature }: { feature: ExclusiveFeature }) {
   const Icon = feature.icon;
   const theme = themeStyles[feature.theme];
+  const carousel = useExclusiveCarouselPause();
 
   return (
     <article
       className={cn(
-        "on-dark-copy group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f18] transition-colors",
+        "on-dark-copy group relative mx-2.5 flex w-[280px] shrink-0 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f18] transition-colors sm:mx-3 sm:w-[300px]",
         theme.border,
       )}
+      onClick={() => carousel?.pauseOnCardClick()}
+      onMouseLeave={() => carousel?.resumeOnCardLeave()}
     >
       <span className="absolute right-0 top-0 z-10 rounded-bl-xl rounded-tr-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white">
         Novo
@@ -294,13 +302,15 @@ export function ExclusiveFeatures() {
             querem controle total e escala sem perder qualidade.
           </p>
         </div>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {features.map((feature) => (
-            <FeatureCard key={feature.title} feature={feature} />
-          ))}
-        </div>
       </SectionContainer>
+
+      <ExclusiveFeaturesCarousel>
+        {features.map((feature) => (
+          <CarouselItem key={feature.title} className="basis-auto pl-0">
+            <FeatureCard feature={feature} />
+          </CarouselItem>
+        ))}
+      </ExclusiveFeaturesCarousel>
     </section>
   );
 }

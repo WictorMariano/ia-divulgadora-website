@@ -1,39 +1,85 @@
-import { Rocket, Users } from "lucide-react";
-import leadsKpis from "@/assets/leads-kpis.jpg";
-import { SectionContainer } from "./SectionContainer";
+"use client";
 
-const leadFeatures = [
+import type { LucideIcon } from "lucide-react";
+import {
+  AlertTriangle,
+  BarChart3,
+  History,
+  LineChart,
+  Rocket,
+  ScanSearch,
+  TrendingUp,
+  Users,
+  Wallet,
+} from "lucide-react";
+import leadsKpis from "@/assets/leads-kpis.jpg";
+import { CtaButton } from "@/components/ui/cta-button";
+import { SectionContainer } from "./SectionContainer";
+import { cn } from "@/lib/utils";
+
+type LeadFeature = {
+  icon: LucideIcon;
+  iconClass: string;
+  title: string;
+  desc: string;
+};
+
+const leadFeatures: LeadFeature[] = [
   {
-    emoji: "💰",
+    icon: Wallet,
+    iconClass: "superpowers-feature-icon--violet",
     title: "CPL real",
-    desc: "Só considera quem ficou mais de 24h",
+    desc: "Veja o custo real por lead, considerando apenas quem ficou mais de 24h no grupo.",
   },
   {
-    emoji: "📈",
+    icon: TrendingUp,
+    iconClass: "superpowers-feature-icon--blue",
     title: "Retenção e LTV",
-    desc: "Identifique os grupos que mais seguram e valorizam seus leads",
+    desc: "Identifique os grupos que mais seguraram e valorizam seus leads ao longo do tempo.",
   },
   {
-    emoji: "📉",
+    icon: History,
+    iconClass: "superpowers-feature-icon--emerald",
     title: "Movimentação completa",
-    desc: "Histórico de entradas e saídas por grupo, dia a dia",
+    desc: "Histórico de entradas e saídas por grupo, dia a dia, com total transparência.",
   },
   {
-    emoji: "🚨",
+    icon: AlertTriangle,
+    iconClass: "superpowers-feature-icon--orange",
     title: "Alerta de lotação",
-    desc: "Saiba quando abrir outro grupo antes de perder lead",
+    desc: "Saiba quando abrir outro grupo antes que você perca oportunidades.",
   },
   {
-    emoji: "🔎",
+    icon: ScanSearch,
+    iconClass: "superpowers-feature-icon--pink",
     title: "Raio-X por grupo",
-    desc: "Ativos, DDDs e desempenho individual em um só lugar",
+    desc: "Ativos, DDDs e desempenho individual em um só lugar.",
   },
   {
-    emoji: "💬",
+    icon: BarChart3,
+    iconClass: "superpowers-feature-icon--indigo",
     title: "Grupos que mais performam",
-    desc: "Descubra onde vale colocar mais tráfego e onde está perdendo lead",
+    desc: "Descubra onde vale colocar mais tráfego e onde está perdendo lead.",
   },
 ];
+
+function LeadFeatureCard({ feature }: { feature: LeadFeature }) {
+  const Icon = feature.icon;
+
+  return (
+    <article className="superpowers-feature-card">
+      <div className={cn("superpowers-feature-icon", feature.iconClass)}>
+        <Icon className="size-4" strokeWidth={2} />
+      </div>
+      <div className="min-w-0">
+        <h4 className="text-sm font-semibold text-white">{feature.title}</h4>
+        <p className="on-dark-copy-muted mt-1 text-xs leading-relaxed sm:text-[0.8125rem]">
+          {feature.desc}
+        </p>
+      </div>
+    </article>
+  );
+}
 
 export function Superpowers() {
   return (
@@ -43,21 +89,25 @@ export function Superpowers() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,oklch(0.45_0.12_280/0.12),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgb(139_92_246/0.14),transparent_55%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_100%_100%,rgb(56_189_248/0.08),transparent_50%)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.3]"
         style={{
           backgroundImage:
-            "linear-gradient(oklch(1 0 0 / 4%) 1px, transparent 1px), linear-gradient(90deg, oklch(1 0 0 / 4%) 1px, transparent 1px)",
+            "linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
         }}
       />
 
       <SectionContainer>
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 backdrop-blur-sm">
             <Rocket className="size-3.5 text-violet-400" strokeWidth={2.5} />
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300">
               Exclusivo IA Divulgadora
@@ -76,65 +126,33 @@ export function Superpowers() {
           </p>
         </div>
 
-        <article className="on-dark-copy relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-6 shadow-[0_0_80px_-30px_rgba(139,92,246,0.35)] backdrop-blur-sm md:mt-14 md:p-8 lg:p-10">
-          <span className="absolute right-0 top-0 rounded-bl-2xl rounded-tr-3xl bg-gradient-to-r from-orange-500 to-orange-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
-            Novo
-          </span>
+        <article className="superpowers-main-card relative mt-12 md:mt-14">
+          <span className="superpowers-main-card__badge">NOVO</span>
 
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-            <div>
+          <div className="superpowers-main-card__light superpowers-main-card__light--blue" aria-hidden />
+          <div className="superpowers-main-card__light superpowers-main-card__light--green" aria-hidden />
+
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)] lg:gap-8 xl:gap-10">
+            <div className="lg:py-2">
               <div className="flex items-center gap-3">
-                <div className="flex size-11 items-center justify-center rounded-xl bg-violet-500/15 text-violet-400 shadow-[0_0_24px_-6px_rgba(139,92,246,0.5)]">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/15 text-violet-400 shadow-[0_0_24px_-6px_rgb(139_92_246/0.45)]">
                   <Users className="size-5" strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-bold text-white sm:text-2xl">Gestão de Leads</h3>
               </div>
 
-              <p className="mt-4 text-sm leading-relaxed sm:text-base">
-                Chega de adivinhar se sua campanha está dando resultado. A Gestão de Leads mostra
-                quantos leads únicos você tem, quanto cada um realmente custou e quais grupos
-                performam melhor — sem contar quem entrou e saiu no mesmo dia.
+              <p className="superpowers-leads-tagline mt-4 text-sm font-medium leading-relaxed sm:text-base">
+                Chega de adivinhar se sua campanha está dando resultado.
               </p>
-
-              <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-                {leadFeatures.map((feature) => (
-                  <li key={feature.title} className="flex gap-3">
-                    <span className="mt-0.5 shrink-0 text-base" aria-hidden>
-                      {feature.emoji}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-white">{feature.title}</p>
-                      <p
-                        className="on-dark-copy-muted mt-0.5 text-xs leading-relaxed sm:text-sm"
-                      >
-                        {feature.desc}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 flex flex-col items-start gap-2">
-                <a
-                  href="#planos"
-                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-sky-500 px-6 text-sm font-bold text-white shadow-[0_0_32px_-8px_rgba(139,92,246,0.6)] transition-all hover:brightness-110"
-                >
-                  <Rocket className="size-4" />
-                  Quero Gestão de Leads
-                </a>
-                <p className="on-dark-copy-subtle text-xs">
-                  Descubra seus leads reais e decida com mais inteligência.
-                </p>
-              </div>
             </div>
 
-            <div className="relative">
+            <div className="relative w-full lg:-mr-1">
               <div
                 aria-hidden
-                className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-violet-500/20 via-transparent to-sky-500/15 blur-2xl"
+                className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-violet-500/20 via-transparent to-sky-500/15 blur-2xl"
               />
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-1.5 shadow-2xl">
-                <div className="overflow-hidden rounded-xl border border-white/5">
+              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black/70 p-1 shadow-2xl lg:scale-[1.02] lg:origin-center">
+                <div className="overflow-hidden rounded-lg border border-white/5">
                   <img
                     src={leadsKpis}
                     alt="Dashboard de Gestão de Leads da IA Divulgadora com KPIs de grupos, leads únicos e ocupação"
@@ -144,6 +162,31 @@ export function Superpowers() {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="on-dark-copy mt-8 grid gap-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-5 lg:mt-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-6">
+            {leadFeatures.map((feature) => (
+              <LeadFeatureCard key={feature.title} feature={feature} />
+            ))}
+          </div>
+
+          <div className="superpowers-cta-bar mt-8 lg:mt-10">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <LineChart className="size-4 shrink-0 text-violet-400" strokeWidth={2} />
+              <span className="superpowers-cta-bar__title truncate text-sm font-semibold sm:text-base">
+                Quero Gestão de Leads
+              </span>
+            </div>
+
+            <div className="superpowers-cta-bar__divider hidden h-8 w-px shrink-0 sm:block" aria-hidden />
+
+            <p className="superpowers-cta-bar__subtitle hidden min-w-0 flex-1 text-xs leading-relaxed sm:block sm:text-sm">
+              Descubra seus leads reais e decida com mais inteligência.
+            </p>
+
+            <CtaButton href="#planos" size="sm" className="w-full shrink-0 sm:ml-auto sm:w-auto">
+              Quero ativar agora
+            </CtaButton>
           </div>
         </article>
       </SectionContainer>

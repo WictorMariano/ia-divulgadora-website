@@ -17,7 +17,8 @@ import {
   Timer,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, type CSSProperties } from "react";
+import { useInView } from "framer-motion";
 import { SectionContainer } from "./SectionContainer";
 import { cn } from "@/lib/utils";
 
@@ -230,14 +231,14 @@ function ModeTab({
       onClick={onClick}
       className={cn("mode-tab flex items-center gap-3", active ? "mode-tab--active" : "mode-tab--inactive")}
     >
-      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", accent.icon)}>
+      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", active ? "bg-white/12 text-white" : accent.icon)}>
         <Icon className="size-5" strokeWidth={1.75} />
       </div>
       <div className="min-w-0">
-        <p className={cn("text-xs font-bold", active ? "text-white" : "on-dark-copy-muted")}>
+        <p className={cn("text-xs font-bold", active ? "text-white" : "text-white/75")}>
           {mode.tabNumber} {mode.tabTitle}
         </p>
-        <p className={cn("truncate text-[11px]", active ? "text-white/70" : "on-dark-copy-subtle")}>
+        <p className={cn("truncate text-[11px]", active ? "text-white/85" : "text-white/45")}>
           {mode.tabSubtitle}
         </p>
       </div>
@@ -385,71 +386,77 @@ function ModePanel({ mode }: { mode: ModeConfig }) {
 const controlCards = [
   {
     icon: Timer,
-    iconBg: "bg-sky-500/15 text-sky-400",
     title: "Intervalos de Envio",
     description:
       "De 1 a 30 minutos entre cada disparo. Define horário de início, término e limpeza de pendentes.",
     badge: "NOVO" as const,
+    theme: "sky" as const,
     highlighted: false,
+    rotation: -15,
   },
   {
     icon: ClipboardList,
-    iconBg: "bg-violet-500/15 text-violet-400",
     title: "Filas de Envio",
     description:
       "Organize produtos em filas sequenciais. Importe filas prontas ou crie por nicho e loja.",
+    theme: "violet" as const,
     highlighted: true,
+    rotation: 5,
   },
   {
     icon: Calendar,
-    iconBg: "bg-emerald-500/15 text-emerald-400",
     title: "Agendamento",
     description:
       "Programe mensagens de engajamento com recorrência. Prepare a semana inteira em minutos.",
+    theme: "emerald" as const,
     highlighted: false,
+    rotation: 25,
   },
 ];
 
 function ControlDetails() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.45 });
+
   return (
-    <div className="mt-14 border-t border-white/10 pt-12 md:mt-16 md:pt-14">
+    <div ref={containerRef} className="mt-16 md:mt-20">
       <h3 className="text-center text-xl font-bold text-white sm:text-2xl">
         E você ainda controla cada detalhe:
       </h3>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      <div
+        className={cn(
+          "control-glass-container mt-8 md:mt-10",
+          isInView && "control-glass-container--visible",
+        )}
+      >
         {controlCards.map((card) => {
           const Icon = card.icon;
           return (
             <article
               key={card.title}
+              data-text={card.title}
+              style={{ "--r": card.rotation } as CSSProperties}
               className={cn(
-                "relative rounded-2xl border bg-[#0a0f18] p-5 backdrop-blur-sm",
-                card.highlighted
-                  ? "border-sky-500/40 shadow-[0_0_24px_-8px_rgba(56,189,248,0.25)]"
-                  : "border-white/10",
+                "control-glass-card",
+                `control-glass-card--${card.theme}`,
+                card.highlighted && "control-glass-card--highlight",
               )}
             >
+              <div className="control-glass-card__grid" aria-hidden />
+              <div className="control-glass-card__shine" aria-hidden />
+
               {card.badge && (
-                <span className="absolute -right-px -top-px rounded-bl-lg rounded-tr-2xl bg-orange-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
-                  {card.badge}
-                </span>
+                <span className="control-glass-card__badge">{card.badge}</span>
               )}
 
-              <div className="flex items-start gap-3">
-                <div
-                  className={cn(
-                    "flex size-10 shrink-0 items-center justify-center rounded-xl",
-                    card.iconBg,
-                  )}
-                >
-                  <Icon className="size-5" strokeWidth={2} />
-                </div>
-                <div className="min-w-0 pt-0.5">
-                  <h4 className="text-base font-bold text-white">{card.title}</h4>
-                  <p className="on-dark-copy-muted mt-2 text-sm leading-relaxed">{card.description}</p>
+              <div className="control-glass-card__icon-wrap">
+                <div className="control-glass-card__icon-box">
+                  <Icon className="control-glass-card__icon" strokeWidth={1.75} />
                 </div>
               </div>
+
+              <p className="control-glass-card__desc">{card.description}</p>
             </article>
           );
         })}

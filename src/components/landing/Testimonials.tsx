@@ -110,9 +110,9 @@ export function Testimonials() {
   return (
     <section
       id="depoimentos"
-      className="section-full-bleed section-full-bleed--testimonials w-full overflow-visible"
+      className="section-full-bleed section-full-bleed--testimonials w-full max-w-full"
     >
-      <div className="testimonials-section-bg relative overflow-visible py-20 md:py-28">
+      <div className="testimonials-section-bg relative py-20 md:py-28">
         <div aria-hidden className="testimonials-section-bg__mesh" />
         <div aria-hidden className="testimonials-section-bg__orb testimonials-section-bg__orb--blue" />
         <div aria-hidden className="testimonials-section-bg__orb testimonials-section-bg__orb--orange" />

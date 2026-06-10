@@ -2,6 +2,7 @@
 
 import type { LucideIcon } from "lucide-react";
 import {
+  ArrowRight,
   BarChart3,
   CalendarClock,
   CalendarRange,
@@ -28,9 +29,12 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { SectionContainer } from "./SectionContainer";
+import { ResourcesWaveBackground } from "./ResourcesWaveBackground";
 import { cn } from "@/lib/utils";
 
 type Badge = "Novo" | "Exclusivo" | "Mais usado";
+
+type CardTheme = "sky" | "orange" | "violet" | "emerald" | "indigo" | "cyan";
 
 type Resource = {
   title: string;
@@ -38,15 +42,18 @@ type Resource = {
   benefit: string;
   icon: LucideIcon;
   badge?: Badge;
+  theme: CardTheme;
 };
+
+const cardThemes: CardTheme[] = ["sky", "orange", "violet", "emerald", "indigo", "cyan"];
 
 const badgeStyles: Record<Badge, string> = {
-  Novo: "bg-orange-500 text-white",
-  Exclusivo: "bg-violet-500/90 text-white",
-  "Mais usado": "bg-sky-500/90 text-white",
+  Novo: "resource-schema-card__status--orange",
+  Exclusivo: "resource-schema-card__status--violet",
+  "Mais usado": "resource-schema-card__status--sky",
 };
 
-const resources: Resource[] = [
+const resourcesData: Omit<Resource, "theme">[] = [
   {
     title: "Geração Instantânea de Links",
     description:
@@ -206,17 +213,31 @@ const resources: Resource[] = [
   },
 ];
 
+const resources: Resource[] = resourcesData.map((resource, index) => ({
+  ...resource,
+  theme: cardThemes[index % cardThemes.length],
+}));
+
 const INITIAL_VISIBLE = 6;
 
 function ResourceCard({ resource }: { resource: Resource }) {
   const Icon = resource.icon;
 
   return (
-    <article className="group relative flex flex-col rounded-2xl border border-white/10 bg-[#0a0f18] p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-500/25 hover:shadow-lg">
+    <article
+      className={cn(
+        "resource-schema-card flex flex-col overflow-hidden rounded-xl",
+        `resource-schema-card--${resource.theme}`,
+      )}
+    >
+      <div className="resource-schema-card__grid" aria-hidden />
+      <div className="resource-schema-card__light resource-schema-card__light--blue" aria-hidden />
+      <div className="resource-schema-card__light resource-schema-card__light--green" aria-hidden />
+
       {resource.badge && (
         <span
           className={cn(
-            "absolute right-3 top-3 rounded-md px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide",
+            "resource-schema-card__corner-badge",
             badgeStyles[resource.badge],
           )}
         >
@@ -224,21 +245,41 @@ function ResourceCard({ resource }: { resource: Resource }) {
         </span>
       )}
 
-      <div className="flex items-start gap-3 pr-14">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/10 text-orange-400">
-          <Icon className="size-5" strokeWidth={2} />
+      <div className="resource-schema-card__body">
+        <div className="flex items-start gap-3">
+          <div className="resource-schema-card__icon shrink-0">
+            <Icon className="size-4" strokeWidth={2} />
+          </div>
+          <div className={cn("min-w-0 flex-1", resource.badge && "pr-14")}>
+            <span className="resource-schema-card__tag mb-1.5 inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide">
+              Recurso
+            </span>
+            <h3 className="text-sm font-semibold leading-snug text-white sm:text-[0.9375rem]">
+              {resource.title}
+            </h3>
+          </div>
         </div>
-        <h3 className="min-w-0 text-base font-bold leading-snug text-white sm:text-lg">
-          {resource.title}
-        </h3>
-      </div>
 
-      <p className="on-dark-copy-muted mt-3 text-sm leading-relaxed">
-        {resource.description}
-      </p>
-      <p className="on-dark-copy-subtle mt-2 text-xs leading-relaxed sm:text-sm">
-        {resource.benefit}
-      </p>
+        <p className="on-dark-copy-muted mt-2 text-xs leading-relaxed">
+          {resource.description}
+        </p>
+
+        <p className="on-dark-copy-subtle mt-1.5 text-[11px] leading-relaxed">
+          {resource.benefit}
+        </p>
+
+        <div className="resource-schema-card__divider mt-3" aria-hidden />
+
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <span className="resource-schema-card__action inline-flex items-center gap-1 text-[11px] font-medium">
+            Incluído
+            <ArrowRight className="size-3" strokeWidth={2.5} />
+          </span>
+          <span className="resource-schema-card__live rounded-full px-2 py-0.5 text-[10px] font-medium">
+            Ativo
+          </span>
+        </div>
+      </div>
     </article>
   );
 }
@@ -251,11 +292,13 @@ export function AllResources() {
   return (
     <section
       id="todos-os-recursos"
-      className="relative overflow-hidden border-t border-white/8 py-16 md:py-24"
+      className="all-resources-section relative overflow-x-clip border-t border-white/8 py-16 md:py-24"
     >
-      <SectionContainer>
+      <ResourcesWaveBackground />
+
+      <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
             <Sparkles className="size-3.5 text-orange-400" strokeWidth={2.5} />
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-orange-300">
               Todos os recursos
@@ -284,7 +327,7 @@ export function AllResources() {
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-orange-500/40 hover:bg-orange-500/10"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-sky-400/40 hover:bg-sky-500/10"
           >
             {expanded ? (
               <>

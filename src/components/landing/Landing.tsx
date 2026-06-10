@@ -17,9 +17,9 @@ import { ClosingExperience } from "./closing/ClosingExperience";
 
 export function Landing() {
   return (
-    <div className="relative min-h-screen bg-site text-foreground">
+    <div className="relative min-h-screen max-w-full overflow-x-clip bg-site text-foreground">
       <SiteFlowBackground />
-      <main className="relative z-10">
+      <main className="relative z-10 max-w-full overflow-x-clip">
         <Hero />
         <div className="marketplaces-separator">
           <div className="relative mx-auto max-w-7xl px-6">
@@ -36,8 +36,8 @@ export function Landing() {
         <NovaPlataforma />
         <AllResources />
         <Pricing />
-        <Testimonials />
         <Support />
+        <Testimonials />
         <ClosingExperience />
       </main>
     </div>
