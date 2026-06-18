@@ -118,7 +118,7 @@ export function ExclusiveFeaturesCarousel({ children }: ExclusiveFeaturesCarouse
           </button>
           <button
             type="button"
-            className="exclusive-carousel-btn exclusive-carousel-btn--blue"
+            className="exclusive-carousel-btn exclusive-carousel-btn--orange"
             onClick={() => api?.scrollNext()}
             aria-label="Próximo"
           >

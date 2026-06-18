@@ -103,9 +103,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("iad-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");document.documentElement.style.colorScheme=t==="light"?"light":"dark"}catch(e){}})();`,
+          }}
+        />
       </head>
       <body>
         {children}

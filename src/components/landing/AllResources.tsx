@@ -2,7 +2,6 @@
 
 import type { LucideIcon } from "lucide-react";
 import {
-  ArrowRight,
   BarChart3,
   CalendarClock,
   CalendarRange,
@@ -29,14 +28,14 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { SectionContainer } from "./SectionContainer";
-import { ResourcesWaveBackground } from "./ResourcesWaveBackground";
+import { SectionCta } from "./SectionCta";
 import { cn } from "@/lib/utils";
 
 type Badge = "Novo" | "Exclusivo" | "Mais usado";
 
 type CardTheme = "sky" | "orange" | "violet" | "emerald" | "indigo" | "cyan";
 
-type Resource = {
+export type Resource = {
   title: string;
   description: string;
   benefit: string;
@@ -48,9 +47,9 @@ type Resource = {
 const cardThemes: CardTheme[] = ["sky", "orange", "violet", "emerald", "indigo", "cyan"];
 
 const badgeStyles: Record<Badge, string> = {
-  Novo: "resource-schema-card__status--orange",
-  Exclusivo: "resource-schema-card__status--violet",
-  "Mais usado": "resource-schema-card__status--sky",
+  Novo: "border-orange-500/30 bg-orange-500/10 text-orange-300",
+  Exclusivo: "border-violet-500/30 bg-violet-500/10 text-violet-300",
+  "Mais usado": "border-sky-500/30 bg-sky-500/10 text-sky-300",
 };
 
 const resourcesData: Omit<Resource, "theme">[] = [
@@ -218,68 +217,38 @@ const resources: Resource[] = resourcesData.map((resource, index) => ({
   theme: cardThemes[index % cardThemes.length],
 }));
 
+export { resources as landingResources };
+
 const INITIAL_VISIBLE = 6;
 
-function ResourceCard({ resource }: { resource: Resource }) {
+export function ResourceCard({ resource }: { resource: Resource }) {
   const Icon = resource.icon;
 
   return (
-    <article
-      className={cn(
-        "resource-schema-card flex flex-col overflow-hidden rounded-xl",
-        `resource-schema-card--${resource.theme}`,
-      )}
-    >
-      <div className="resource-schema-card__grid" aria-hidden />
-      <div className="resource-schema-card__light resource-schema-card__light--blue" aria-hidden />
-      <div className="resource-schema-card__light resource-schema-card__light--green" aria-hidden />
-
-      {resource.badge && (
-        <span
-          className={cn(
-            "resource-schema-card__corner-badge",
-            badgeStyles[resource.badge],
-          )}
-        >
-          {resource.badge}
-        </span>
-      )}
-
-      <div className="resource-schema-card__body">
-        <div className="flex items-start gap-3">
-          <div className="resource-schema-card__icon shrink-0">
-            <Icon className="size-4" strokeWidth={2} />
-          </div>
-          <div className={cn("min-w-0 flex-1", resource.badge && "pr-14")}>
-            <span className="resource-schema-card__tag mb-1.5 inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide">
-              Recurso
-            </span>
-            <h3 className="text-sm font-semibold leading-snug text-white sm:text-[0.9375rem]">
-              {resource.title}
-            </h3>
-          </div>
+    <article className="flex h-full flex-col rounded-xl border border-white/10 bg-black/35 p-4 backdrop-blur-sm transition-colors hover:border-cta/25">
+      <div className="flex items-start gap-3">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-cta/25 bg-cta/10 text-cta">
+          <Icon className="size-4" strokeWidth={2} />
         </div>
-
-        <p className="on-dark-copy-muted mt-2 text-xs leading-relaxed">
-          {resource.description}
-        </p>
-
-        <p className="on-dark-copy-subtle mt-1.5 text-[11px] leading-relaxed">
-          {resource.benefit}
-        </p>
-
-        <div className="resource-schema-card__divider mt-3" aria-hidden />
-
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <span className="resource-schema-card__action inline-flex items-center gap-1 text-[11px] font-medium">
-            Incluído
-            <ArrowRight className="size-3" strokeWidth={2.5} />
-          </span>
-          <span className="resource-schema-card__live rounded-full px-2 py-0.5 text-[10px] font-medium">
-            Ativo
-          </span>
+        <div className={cn("min-w-0 flex-1", resource.badge && "pr-2")}>
+          {resource.badge && (
+            <span
+              className={cn(
+                "mb-1.5 inline-flex rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide",
+                badgeStyles[resource.badge],
+              )}
+            >
+              {resource.badge}
+            </span>
+          )}
+          <h3 className="text-sm font-semibold leading-snug text-white sm:text-[0.9375rem]">
+            {resource.title}
+          </h3>
         </div>
       </div>
+
+      <p className="on-dark-copy-muted mt-3 text-xs leading-relaxed">{resource.description}</p>
+      <p className="mt-1.5 text-[11px] leading-relaxed site-muted">{resource.benefit}</p>
     </article>
   );
 }
@@ -292,24 +261,28 @@ export function AllResources() {
   return (
     <section
       id="todos-os-recursos"
-      className="all-resources-section relative overflow-x-clip border-t border-white/8 py-16 md:py-24"
+      className="panel-showcase relative overflow-x-clip border-t border-white/8 py-12 md:py-24"
     >
-      <ResourcesWaveBackground />
+      <div aria-hidden className="panel-showcase-lights pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="panel-showcase-light panel-showcase-light--blue" />
+        <div className="panel-showcase-light panel-showcase-light--orange" />
+        <div className="panel-showcase-vignette" />
+      </div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_10%,transparent),transparent_55%)]"
+      />
 
       <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 backdrop-blur-sm">
-            <Sparkles className="size-3.5 text-orange-400" strokeWidth={2.5} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-orange-300">
-              Todos os recursos
-            </span>
+          <div className="section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
+            <Sparkles className="size-3.5" strokeWidth={2.5} />
+            <span>Todos os recursos</span>
           </div>
 
           <h2 className="text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
             Arsenal Completo de Automação{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
-              para Afiliados
-            </span>
+            <span className="section-title-gradient">para Afiliados</span>
           </h2>
           <p className="on-dark-copy-muted mx-auto mt-4 max-w-2xl text-sm sm:text-base">
             Enquanto você dorme, a IA Divulgadora trabalha. Cada recurso foi desenvolvido para
@@ -327,7 +300,7 @@ export function AllResources() {
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-sky-400/40 hover:bg-sky-500/10"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-cta/30 hover:bg-cta/10"
           >
             {expanded ? (
               <>
@@ -342,6 +315,8 @@ export function AllResources() {
             )}
           </button>
         </div>
+
+        <SectionCta className="mt-8 md:mt-10" />
       </SectionContainer>
     </section>
   );

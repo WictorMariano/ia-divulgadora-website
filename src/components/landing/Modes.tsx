@@ -1,10 +1,6 @@
-"use client";
-
 import type { LucideIcon } from "lucide-react";
 import {
-  Calendar,
   ChevronRight,
-  ClipboardList,
   Clock,
   Copy,
   Flame,
@@ -13,14 +9,18 @@ import {
   Radar,
   Search,
   Send,
+  Sparkles,
   Target,
-  Timer,
   Zap,
 } from "lucide-react";
-import { useState, useRef, type CSSProperties } from "react";
-import { useInView } from "framer-motion";
 import { SectionContainer } from "./SectionContainer";
+import { SectionCta } from "./SectionCta";
+import { ControlDetails } from "./ControlDetails";
+import { CtaButton } from "@/components/ui/cta-button";
 import { cn } from "@/lib/utils";
+import espelhamentoImg from "@/assets/modo-espelhamento.png";
+import mexendoCelularImg from "@/assets/modo-mexendo-celular.png";
+import rapidezImg from "@/assets/modo-rapidez.png";
 
 type ModeId = "monitoramento" | "clone" | "demanda" | "agendamento";
 
@@ -36,11 +36,19 @@ type ModeConfig = {
   headlineHighlight: string;
   description: string;
   features: { icon: LucideIcon; text: string }[];
-  stats: { value: string; label: string }[];
-  statsTitle: string;
   flow: { icon: LucideIcon; label: string; color: string }[];
   footerText: string;
   footerHighlight: string;
+  image?: string;
+  imageAlt?: string;
+  visual?: {
+    sourceLabel: string;
+    sourceAccent: string;
+    resultLabel: string;
+    resultAccent: string;
+    sourceTitle: string;
+    resultTitle: string;
+  };
 };
 
 const modes: ModeConfig[] = [
@@ -62,13 +70,6 @@ const modes: ModeConfig[] = [
       { icon: Link2, text: "Converte link + aplica cupom" },
       { icon: Send, text: "Cria o post e envia automaticamente" },
     ],
-    statsTitle: "Resultados que você sente",
-    stats: [
-      { value: "+70%", label: "Mais oportunidades" },
-      { value: "+85%", label: "Mais conversões" },
-      { value: "24h", label: "Monitoramento" },
-      { value: "100%", label: "Automático" },
-    ],
     flow: [
       { icon: Target, label: "1. Detecta Oferta", color: "text-sky-400 bg-sky-500/15" },
       { icon: Link2, label: "2. Converte Link", color: "text-orange-400 bg-orange-500/15" },
@@ -77,6 +78,8 @@ const modes: ModeConfig[] = [
     ],
     footerText: "A IA trabalha enquanto você foca no que importa:",
     footerHighlight: "vender mais.",
+    image: espelhamentoImg,
+    imageAlt: "Espelhamento inteligente 24h na IA Divulgadora",
   },
   {
     id: "clone",
@@ -96,13 +99,6 @@ const modes: ModeConfig[] = [
       { icon: Link2, text: "Converte o link automaticamente" },
       { icon: Send, text: "Dispara sem reformatar" },
     ],
-    statsTitle: "Resultados que você sente",
-    stats: [
-      { value: "100%", label: "Post original" },
-      { value: "+60%", label: "Mais cupons" },
-      { value: "24h", label: "Monitoramento" },
-      { value: "0", label: "Reformatação" },
-    ],
     flow: [
       { icon: Copy, label: "1. Captura Post", color: "text-emerald-400 bg-emerald-500/15" },
       { icon: Link2, label: "2. Troca Link", color: "text-orange-400 bg-orange-500/15" },
@@ -111,6 +107,8 @@ const modes: ModeConfig[] = [
     ],
     footerText: "Preserve o formato que já converte e",
     footerHighlight: "lucre com cupons.",
+    image: mexendoCelularImg,
+    imageAlt: "Clone de mensagens pelo celular na IA Divulgadora",
   },
   {
     id: "demanda",
@@ -130,13 +128,6 @@ const modes: ModeConfig[] = [
       { icon: Pencil, text: "Post pronto com imagem e preço" },
       { icon: Send, text: "Dispare com 1 clique" },
     ],
-    statsTitle: "Resultados que você sente",
-    stats: [
-      { value: "<60s", label: "Por post" },
-      { value: "+90%", label: "Mais agilidade" },
-      { value: "1", label: "Clique p/ enviar" },
-      { value: "100%", label: "Automático" },
-    ],
     flow: [
       { icon: Link2, label: "1. Cola Link", color: "text-orange-400 bg-orange-500/15" },
       { icon: Zap, label: "2. IA Converte", color: "text-amber-400 bg-amber-500/15" },
@@ -145,6 +136,8 @@ const modes: ModeConfig[] = [
     ],
     footerText: "Do link original ao disparo completo em",
     footerHighlight: "menos de 1 minuto.",
+    image: rapidezImg,
+    imageAlt: "Criação rápida de posts na IA Divulgadora",
   },
   {
     id: "agendamento",
@@ -164,13 +157,6 @@ const modes: ModeConfig[] = [
       { icon: Search, text: "Organize por nicho ou loja" },
       { icon: Send, text: "Envio no timing certo" },
     ],
-    statsTitle: "Resultados que você sente",
-    stats: [
-      { value: "24/7", label: "Fila ativa" },
-      { value: "+75%", label: "Consistência" },
-      { value: "∞", label: "Ofertas na fila" },
-      { value: "100%", label: "No horário" },
-    ],
     flow: [
       { icon: Clock, label: "1. Agenda", color: "text-blue-400 bg-blue-500/15" },
       { icon: Pencil, label: "2. Personaliza", color: "text-violet-400 bg-violet-500/15" },
@@ -179,87 +165,60 @@ const modes: ModeConfig[] = [
     ],
     footerText: "Cada produto divulgado na",
     footerHighlight: "hora ideal.",
+    visual: {
+      sourceLabel: "+ Ofertas na fila",
+      sourceAccent: "text-blue-400",
+      resultLabel: "+ Publicado no horário",
+      resultAccent: "text-violet-400",
+      sourceTitle: "Fila de Envios",
+      resultTitle: "Grupos no horário de pico",
+    },
   },
 ];
 
 const accentMap = {
   sky: {
-    label: "text-sky-400",
-    highlight: "text-sky-400",
-    icon: "text-sky-400 bg-sky-500/15",
-    stats: "from-sky-600/40 to-blue-900/60 border-sky-500/30",
-    featureIcon: "text-sky-400 bg-sky-500/10",
+    featureIcon: "border border-sky-500/25 bg-sky-500/10 text-sky-300",
+    visualGlow: "shadow-[0_0_60px_-15px_rgba(56,189,248,0.25)]",
+    visualBorder: "border-sky-500/20",
   },
   emerald: {
-    label: "text-emerald-400",
-    highlight: "text-emerald-400",
-    icon: "text-emerald-400 bg-emerald-500/15",
-    stats: "from-emerald-600/40 to-emerald-950/60 border-emerald-500/30",
-    featureIcon: "text-emerald-400 bg-emerald-500/10",
+    featureIcon: "border border-cta/25 bg-cta/10 text-cta",
+    visualGlow: "shadow-[0_0_60px_-15px_color-mix(in_oklab,var(--cta)_35%,transparent)]",
+    visualBorder: "border-cta/25",
   },
   orange: {
-    label: "text-orange-400",
-    highlight: "text-orange-400",
-    icon: "text-orange-400 bg-orange-500/15",
-    stats: "from-orange-600/40 to-orange-950/60 border-orange-500/30",
-    featureIcon: "text-orange-400 bg-orange-500/10",
+    featureIcon: "border border-orange-500/25 bg-orange-500/10 text-orange-300",
+    visualGlow: "shadow-[0_0_60px_-15px_rgba(251,146,60,0.3)]",
+    visualBorder: "border-orange-500/25",
   },
   blue: {
-    label: "text-blue-400",
-    highlight: "text-blue-400",
-    icon: "text-blue-400 bg-blue-500/15",
-    stats: "from-blue-600/40 to-blue-950/60 border-blue-500/30",
-    featureIcon: "text-blue-400 bg-blue-500/10",
+    featureIcon: "border border-amber-500/25 bg-amber-500/10 text-amber-300",
+    visualGlow: "shadow-[0_0_60px_-15px_rgba(245,158,11,0.25)]",
+    visualBorder: "border-amber-500/20",
   },
 };
 
-function ModeTab({
-  mode,
-  active,
-  onClick,
+function SourceMockup({
+  label,
+  accent,
+  title,
 }: {
-  mode: ModeConfig;
-  active: boolean;
-  onClick: () => void;
+  label: string;
+  accent: string;
+  title: string;
 }) {
-  const Icon = mode.tabIcon;
-  const accent = accentMap[mode.accent];
-
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn("mode-tab flex items-center gap-3", active ? "mode-tab--active" : "mode-tab--inactive")}
-    >
-      <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", active ? "bg-white/12 text-white" : accent.icon)}>
-        <Icon className="size-5" strokeWidth={1.75} />
-      </div>
-      <div className="min-w-0">
-        <p className={cn("text-xs font-bold", active ? "text-white" : "text-white/75")}>
-          {mode.tabNumber} {mode.tabTitle}
-        </p>
-        <p className={cn("truncate text-[11px]", active ? "text-white/85" : "text-white/45")}>
-          {mode.tabSubtitle}
-        </p>
-      </div>
-    </button>
-  );
-}
-
-function OfferMockup() {
-  return (
-    <div className="rounded-xl border border-white/10 bg-[#0a0f18] p-3">
-      <p className="mb-2 text-[9px] font-bold uppercase tracking-wider text-orange-400">
-        + Oferta detectada agora
-      </p>
+    <div className="rounded-xl border border-white/10 bg-black/35 p-3 backdrop-blur-sm">
+      <p className={cn("mb-2 text-[9px] font-bold uppercase tracking-wider", accent)}>{label}</p>
       <div className="rounded-lg border border-white/5 bg-black/40 p-2.5">
-        <p className="text-[10px] text-zinc-500">Grupo Promoções</p>
+        <p className="site-subtle text-[10px]">{title}</p>
         <div className="mt-2 flex gap-2">
           <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-lg">
             🍳
           </div>
           <div className="min-w-0">
-            <p className="text-[11px] font-medium leading-snug text-zinc-200">
+            <p className="site-lead text-[11px] font-medium leading-snug">
               Air Fryer 5L — Oferta imperdível!
             </p>
             <p className="mt-1 text-sm font-bold text-white">R$ 199,90</p>
@@ -268,23 +227,29 @@ function OfferMockup() {
             </span>
           </div>
         </div>
-        <p className="mt-2 truncate text-[9px] text-zinc-600">shope.ee/link-original...</p>
+        <p className="site-subtle mt-2 truncate text-[9px]">shope.ee/link-original...</p>
       </div>
     </div>
   );
 }
 
-function WhatsAppMockup() {
+function ResultMockup({
+  label,
+  accent,
+  title,
+}: {
+  label: string;
+  accent: string;
+  title: string;
+}) {
   return (
-    <div className="rounded-xl border border-white/10 bg-[#0a0f18] p-3">
-      <p className="mb-2 text-[9px] font-bold uppercase tracking-wider text-emerald-400">
-        + Post gerado e enviado
-      </p>
+    <div className="rounded-xl border border-white/10 bg-black/35 p-3 backdrop-blur-sm">
+      <p className={cn("mb-2 text-[9px] font-bold uppercase tracking-wider", accent)}>{label}</p>
       <div className="overflow-hidden rounded-lg border border-white/5 bg-[#0b1419]">
         <div className="bg-emerald-800/80 px-2.5 py-1.5">
-          <p className="text-[10px] font-medium text-white">Seu Grupo de Promoções</p>
+          <p className="text-[10px] font-medium text-white">{title}</p>
         </div>
-        <div className="space-y-1 p-2.5 text-[10px] leading-relaxed text-zinc-300">
+        <div className="site-copy space-y-1 p-2.5 text-[10px] leading-relaxed">
           <p>🔥 Air Fryer 5L com super desconto!</p>
           <p>✅ Frete grátis selecionado</p>
           <p>💰 De R$ 235 por R$ 199,90</p>
@@ -293,231 +258,237 @@ function WhatsAppMockup() {
         </div>
         <div className="flex items-center justify-between border-t border-white/5 px-2.5 py-1.5">
           <span className="text-[9px] text-emerald-400">✓ Enviado com sucesso</span>
-          <span className="text-[9px] text-zinc-600">14:32</span>
+          <span className="site-subtle text-[9px]">14:32</span>
         </div>
       </div>
     </div>
   );
 }
 
-function ModePanel({ mode }: { mode: ModeConfig }) {
-  const accent = accentMap[mode.accent];
+function ModeStepImage({
+  src,
+  alt,
+  accentKey,
+}: {
+  src: string;
+  alt: string;
+  accentKey: ModeConfig["accent"];
+}) {
+  const accent = accentMap[accentKey];
 
   return (
-    <div className="on-dark-copy flex flex-col gap-8 lg:gap-10">
-      <div className="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
-        <div className="flex flex-col">
-          <p className={cn("text-[11px] font-bold uppercase tracking-[0.14em]", accent.label)}>
-            {mode.modeLabel}
-          </p>
-          <h3 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-            {mode.headline}{" "}
-            <span className={accent.highlight}>{mode.headlineHighlight}</span>
-          </h3>
-          <p className="on-dark-copy-muted mt-3 text-sm leading-relaxed">{mode.description}</p>
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-2 shadow-[0_0_50px_-20px_color-mix(in_oklab,var(--cta)_35%,transparent)] backdrop-blur-sm",
+        accent.visualBorder,
+        accent.visualGlow,
+      )}
+    >
+      <div className="overflow-hidden rounded-xl border border-white/5">
+        <img src={src} alt={alt} className="block h-auto w-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  );
+}
 
-          <ul className="mt-6 space-y-3">
-            {mode.features.map(({ icon: Icon, text }) => (
-              <li key={text} className="flex items-center gap-3">
-                <div className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", accent.featureIcon)}>
+function ModeVisual({ mode }: { mode: ModeConfig }) {
+  if (!mode.visual) return null;
+
+  const accent = accentMap[mode.accent];
+  const visual = mode.visual;
+
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border bg-black/40 p-4 backdrop-blur-sm md:p-5",
+        accent.visualBorder,
+        accent.visualGlow,
+      )}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,color-mix(in_oklab,var(--cta)_8%,transparent),transparent_65%)]"
+      />
+
+      <div className="mode-flow-row relative mb-6 flex flex-wrap items-center justify-between gap-2">
+        {mode.flow.map((step, i) => {
+          const Icon = step.icon;
+          return (
+            <div key={step.label} className="flex items-center gap-1">
+              <div className="flex flex-col items-center gap-1.5">
+                <div className={cn("flex size-9 items-center justify-center rounded-full", step.color)}>
                   <Icon className="size-4" strokeWidth={2} />
                 </div>
-                <span className="text-sm text-white/90">{text}</span>
+                <span className="site-muted max-w-[4.5rem] text-center text-[9px] leading-tight">
+                  {step.label}
+                </span>
+              </div>
+              {i < mode.flow.length - 1 && (
+                <div className="mb-4 hidden h-px w-4 border-t border-dotted border-white/20 sm:block" />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="relative grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
+        <SourceMockup
+          label={visual.sourceLabel}
+          accent={visual.sourceAccent}
+          title={visual.sourceTitle}
+        />
+        <div className="hidden justify-center sm:flex">
+          <div className="flex size-9 items-center justify-center rounded-xl border border-cta/30 bg-cta/10 text-cta">
+            <ChevronRight className="size-5" strokeWidth={2.5} />
+            <ChevronRight className="-ml-3 size-5" strokeWidth={2.5} />
+          </div>
+        </div>
+        <ResultMockup
+          label={visual.resultLabel}
+          accent={visual.resultAccent}
+          title={visual.resultTitle}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ModeStepSection({ mode, index }: { mode: ModeConfig; index: number }) {
+  const accent = accentMap[mode.accent];
+  const imageFirst = index % 2 === 0;
+  const TabIcon = mode.tabIcon;
+
+  return (
+    <div
+      className={cn(
+        "mode-step-section relative border-t border-white/8 py-12 md:py-16",
+        index === 0 && "mt-10 md:mt-12",
+      )}
+    >
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-0 opacity-70",
+          imageFirst
+            ? "bg-[radial-gradient(ellipse_55%_45%_at_0%_50%,color-mix(in_oklab,var(--cta)_7%,transparent),transparent_70%)]"
+            : "bg-[radial-gradient(ellipse_55%_45%_at_100%_50%,color-mix(in_oklab,var(--cta)_7%,transparent),transparent_70%)]",
+        )}
+      />
+
+      <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div
+          className={cn(
+            "order-1 flex flex-col",
+            imageFirst ? "lg:order-1" : "lg:order-2",
+          )}
+        >
+          {mode.image ? (
+            <ModeStepImage
+              src={mode.image}
+              alt={mode.imageAlt ?? mode.modeLabel}
+              accentKey={mode.accent}
+            />
+          ) : (
+            <ModeVisual mode={mode} />
+          )}
+          {mode.id !== "agendamento" && (
+            <div
+              className={cn(
+                "mt-5 flex justify-center",
+                imageFirst ? "lg:justify-start" : "lg:justify-end",
+              )}
+            >
+              <CtaButton href="#planos" size="lg">
+                Começar gratuitamente
+              </CtaButton>
+            </div>
+          )}
+        </div>
+
+        <div className={cn("order-2 flex flex-col", imageFirst ? "lg:order-2" : "lg:order-1")}>
+          <div className="section-badge mb-4 w-fit backdrop-blur-sm">
+            <TabIcon className="size-3.5" strokeWidth={2.5} />
+            <span>
+              {mode.tabNumber} · {mode.tabTitle}
+            </span>
+          </div>
+
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-cta">{mode.modeLabel}</p>
+          <h3 className="mt-2 text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-[2rem]">
+            {mode.headline}{" "}
+            <span className="section-title-gradient">{mode.headlineHighlight}</span>
+          </h3>
+          <p className="site-copy mt-3 text-pretty text-sm leading-relaxed sm:text-base">
+            {mode.description}
+          </p>
+
+          <ul className="mt-6 space-y-2.5">
+            {mode.features.map(({ icon: Icon, text }) => (
+              <li
+                key={text}
+                className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm"
+              >
+                <div
+                  className={cn(
+                    "flex size-8 shrink-0 items-center justify-center rounded-lg",
+                    accent.featureIcon,
+                  )}
+                >
+                  <Icon className="size-4" strokeWidth={2} />
+                </div>
+                <span className="site-lead text-sm">{text}</span>
               </li>
             ))}
           </ul>
+
+          <p className="site-copy mt-6 text-sm sm:mt-8 sm:text-base">
+            {mode.footerText}{" "}
+            <span className="font-semibold text-orange-400">{mode.footerHighlight}</span>
+          </p>
         </div>
-
-        <div>
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-            {mode.flow.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.label} className="flex items-center gap-1">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <div className={cn("flex size-9 items-center justify-center rounded-full", step.color)}>
-                      <Icon className="size-4" strokeWidth={2} />
-                    </div>
-                    <span className="on-dark-copy-subtle max-w-[4.5rem] text-center text-[9px] leading-tight">
-                      {step.label}
-                    </span>
-                  </div>
-                  {i < mode.flow.length - 1 && (
-                    <div className="mb-4 hidden h-px w-4 border-t border-dotted border-white/20 sm:block" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
-            <OfferMockup />
-            <div className="hidden justify-center sm:flex">
-              <div className="flex size-9 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
-                <ChevronRight className="size-5" strokeWidth={2.5} />
-                <ChevronRight className="-ml-3 size-5" strokeWidth={2.5} />
-              </div>
-            </div>
-            <WhatsAppMockup />
-          </div>
-        </div>
-      </div>
-
-      <div className={cn("w-full rounded-2xl border bg-gradient-to-br p-6 md:p-8", accent.stats)}>
-        <p className="mb-5 text-sm font-semibold text-white md:mb-6 md:text-base">{mode.statsTitle}</p>
-        <div className="grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 md:gap-4">
-          {mode.stats.map((stat) => (
-            <div key={stat.label} className="rounded-xl bg-black/15 px-3 py-4 text-center md:px-4 md:py-5 md:text-left">
-              <p className="text-2xl font-bold text-white md:text-3xl">{stat.value}</p>
-              <p className="mt-1 text-[11px] text-white/80 md:text-sm">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p className="on-dark-copy-muted text-center text-sm sm:text-base">
-        {mode.footerText}{" "}
-        <span className="font-semibold text-orange-400">{mode.footerHighlight}</span>
-      </p>
-    </div>
-  );
-}
-
-const controlCards = [
-  {
-    icon: Timer,
-    title: "Intervalos de Envio",
-    description:
-      "De 1 a 30 minutos entre cada disparo. Define horário de início, término e limpeza de pendentes.",
-    badge: "NOVO" as const,
-    theme: "sky" as const,
-    highlighted: false,
-    rotation: -15,
-  },
-  {
-    icon: ClipboardList,
-    title: "Filas de Envio",
-    description:
-      "Organize produtos em filas sequenciais. Importe filas prontas ou crie por nicho e loja.",
-    theme: "violet" as const,
-    highlighted: true,
-    rotation: 5,
-  },
-  {
-    icon: Calendar,
-    title: "Agendamento",
-    description:
-      "Programe mensagens de engajamento com recorrência. Prepare a semana inteira em minutos.",
-    theme: "emerald" as const,
-    highlighted: false,
-    rotation: 25,
-  },
-];
-
-function ControlDetails() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: false, amount: 0.45 });
-
-  return (
-    <div ref={containerRef} className="mt-16 md:mt-20">
-      <h3 className="text-center text-xl font-bold text-white sm:text-2xl">
-        E você ainda controla cada detalhe:
-      </h3>
-
-      <div
-        className={cn(
-          "control-glass-container mt-8 md:mt-10",
-          isInView && "control-glass-container--visible",
-        )}
-      >
-        {controlCards.map((card) => {
-          const Icon = card.icon;
-          return (
-            <article
-              key={card.title}
-              data-text={card.title}
-              style={{ "--r": card.rotation } as CSSProperties}
-              className={cn(
-                "control-glass-card",
-                `control-glass-card--${card.theme}`,
-                card.highlighted && "control-glass-card--highlight",
-              )}
-            >
-              <div className="control-glass-card__grid" aria-hidden />
-              <div className="control-glass-card__shine" aria-hidden />
-
-              {card.badge && (
-                <span className="control-glass-card__badge">{card.badge}</span>
-              )}
-
-              <div className="control-glass-card__icon-wrap">
-                <div className="control-glass-card__icon-box">
-                  <Icon className="control-glass-card__icon" strokeWidth={1.75} />
-                </div>
-              </div>
-
-              <p className="control-glass-card__desc">{card.description}</p>
-            </article>
-          );
-        })}
       </div>
     </div>
   );
 }
 
 export function Modes() {
-  const [activeId, setActiveId] = useState<ModeId>("monitoramento");
-  const activeMode = modes.find((m) => m.id === activeId) ?? modes[0];
-
   return (
-    <section id="modos" className="site-section relative overflow-hidden border-t border-white/8 py-16 md:py-24">
+    <section
+      id="modos"
+      className="panel-showcase relative overflow-hidden border-t border-white/8 py-12 md:py-24"
+    >
+      <div aria-hidden className="panel-showcase-lights pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="panel-showcase-light panel-showcase-light--blue" />
+        <div className="panel-showcase-light panel-showcase-light--orange" />
+        <div className="panel-showcase-light panel-showcase-light--blue-soft" />
+        <div className="panel-showcase-vignette" />
+      </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_0%_0%,rgb(56_189_248/0.1),transparent_55%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_100%_100%,rgb(251_146_60/0.08),transparent_50%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_10%,transparent),transparent_55%)]"
       />
 
-      <SectionContainer>
+      <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5">
-            <span className="text-sm" aria-hidden>
-              ☀️
-            </span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-orange-400">
-              Automação inteligente
-            </span>
+          <div className="section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
+            <Sparkles className="size-3.5" strokeWidth={2.5} />
+            <span>Automação inteligente</span>
           </div>
 
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Como Funciona a{" "}
-            <span className="bg-gradient-to-r from-sky-400 to-orange-400 bg-clip-text text-transparent">
-              IA Divulgadora
-            </span>
-            ?
+            <span className="section-title-gradient">IA Divulgadora</span>?
           </h2>
-          <p className="on-dark-copy-muted mx-auto mt-3 max-w-xl text-sm sm:text-base">
+          <p className="site-copy mx-auto mt-3 max-w-xl text-pretty text-sm sm:text-base">
             Quatro formas poderosas de automatizar suas vendas de afiliado
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {modes.map((mode) => (
-            <ModeTab
-              key={mode.id}
-              mode={mode}
-              active={activeId === mode.id}
-              onClick={() => setActiveId(mode.id)}
-            />
-          ))}
-        </div>
+        {modes.map((mode, index) => (
+          <ModeStepSection key={mode.id} mode={mode} index={index} />
+        ))}
 
-        <div className="mt-4 rounded-2xl border border-white/10 bg-[#0a0f18]/90 p-5 backdrop-blur-sm md:mt-6 md:p-8">
-          <ModePanel mode={activeMode} />
-        </div>
-
+        <SectionCta />
         <ControlDetails />
       </SectionContainer>
     </section>

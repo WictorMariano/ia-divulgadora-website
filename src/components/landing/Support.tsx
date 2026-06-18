@@ -2,6 +2,7 @@ import { Headphones, RefreshCw, ShieldCheck, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import suporteBg from "@/assets/suporte-humanizado.png";
 import { cn } from "@/lib/utils";
+import { SectionCta } from "./SectionCta";
 
 type SupportFeature = {
   icon: LucideIcon;
@@ -76,6 +77,8 @@ export function Support() {
               </li>
             ))}
           </ul>
+
+          <SectionCta className="support-section__cta" />
         </div>
       </div>
     </section>

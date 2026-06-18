@@ -1,6 +1,7 @@
 import { ContainerScroll } from "@/components/ui/container-scroll";
 import dashboardImg from "@/assets/dashboard-preview.png";
 import { Results } from "./Results";
+import { SectionCta } from "./SectionCta";
 
 export function HeroScroll() {
   const title = (
@@ -10,10 +11,10 @@ export function HeroScroll() {
         <span className="section-title-gradient">um só painel</span>
       </h2>
 
-      <p className="mt-6 mb-4 max-w-3xl text-pretty text-center text-base leading-relaxed text-zinc-300 sm:mt-8 sm:mb-5 sm:text-lg sm:leading-[1.7] md:mb-6">
+      <p className="mt-6 mb-4 max-w-3xl text-pretty text-center text-base leading-relaxed site-copy sm:mt-8 sm:mb-5 sm:text-lg sm:leading-[1.7] md:mb-6">
         Organize promoções, cupons, lojas e links de afiliados de forma simples,
         centralizada e eficiente. Dispare posts de alta conversão automaticamente.{" "}
-        <span className="text-zinc-500">
+        <span className="site-subtle">
           A inteligência artificial que trabalha enquanto você dorme.
         </span>
       </p>
@@ -42,6 +43,7 @@ export function HeroScroll() {
         </ContainerScroll>
 
         <Results embedded />
+        <SectionCta className="pb-16 md:pb-24" />
       </div>
     </section>
   );

@@ -5,9 +5,9 @@ import {
   AlertTriangle,
   BarChart3,
   History,
-  LineChart,
   Rocket,
   ScanSearch,
+  Sparkles,
   TrendingUp,
   Users,
   Wallet,
@@ -17,9 +17,11 @@ import { CtaButton } from "@/components/ui/cta-button";
 import { SectionContainer } from "./SectionContainer";
 import { cn } from "@/lib/utils";
 
+type FeatureTheme = "cta" | "orange" | "amber";
+
 type LeadFeature = {
   icon: LucideIcon;
-  iconClass: string;
+  theme: FeatureTheme;
   title: string;
   desc: string;
 };
@@ -27,37 +29,37 @@ type LeadFeature = {
 const leadFeatures: LeadFeature[] = [
   {
     icon: Wallet,
-    iconClass: "superpowers-feature-icon--violet",
+    theme: "cta",
     title: "CPL real",
     desc: "Veja o custo real por lead, considerando apenas quem ficou mais de 24h no grupo.",
   },
   {
     icon: TrendingUp,
-    iconClass: "superpowers-feature-icon--blue",
+    theme: "orange",
     title: "Retenção e LTV",
     desc: "Identifique os grupos que mais seguraram e valorizam seus leads ao longo do tempo.",
   },
   {
     icon: History,
-    iconClass: "superpowers-feature-icon--emerald",
+    theme: "amber",
     title: "Movimentação completa",
     desc: "Histórico de entradas e saídas por grupo, dia a dia, com total transparência.",
   },
   {
     icon: AlertTriangle,
-    iconClass: "superpowers-feature-icon--orange",
+    theme: "orange",
     title: "Alerta de lotação",
     desc: "Saiba quando abrir outro grupo antes que você perca oportunidades.",
   },
   {
     icon: ScanSearch,
-    iconClass: "superpowers-feature-icon--pink",
+    theme: "amber",
     title: "Raio-X por grupo",
     desc: "Ativos, DDDs e desempenho individual em um só lugar.",
   },
   {
     icon: BarChart3,
-    iconClass: "superpowers-feature-icon--indigo",
+    theme: "cta",
     title: "Grupos que mais performam",
     desc: "Descubra onde vale colocar mais tráfego e onde está perdendo lead.",
   },
@@ -67,17 +69,20 @@ function LeadFeatureCard({ feature }: { feature: LeadFeature }) {
   const Icon = feature.icon;
 
   return (
-    <article className="superpowers-feature-card">
-      <div className={cn("superpowers-feature-icon", feature.iconClass)}>
+    <li className="nova-plataforma-features__item group">
+      <div
+        className={cn(
+          "nova-plataforma-features__icon",
+          `nova-plataforma-features__icon--${feature.theme}`,
+        )}
+      >
         <Icon className="size-4" strokeWidth={2} />
       </div>
       <div className="min-w-0">
-        <h4 className="text-sm font-semibold text-white">{feature.title}</h4>
-        <p className="on-dark-copy-muted mt-1 text-xs leading-relaxed sm:text-[0.8125rem]">
-          {feature.desc}
-        </p>
+        <h4 className="nova-plataforma-features__title">{feature.title}</h4>
+        <p className="nova-plataforma-features__desc">{feature.desc}</p>
       </div>
-    </article>
+    </li>
   );
 }
 
@@ -85,73 +90,47 @@ export function Superpowers() {
   return (
     <section
       id="superpoderes"
-      className="site-section relative overflow-hidden border-t border-white/8 py-20 md:py-28"
+      className="grid-glow-section relative overflow-hidden border-t border-white/8 py-12 md:py-24"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgb(139_92_246/0.14),transparent_55%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_100%_100%,rgb(56_189_248/0.08),transparent_50%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.3]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+      <div aria-hidden className="grid-glow-section__glow" />
 
-      <SectionContainer>
+      <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 backdrop-blur-sm">
-            <Rocket className="size-3.5 text-violet-400" strokeWidth={2.5} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300">
-              Exclusivo IA Divulgadora
-            </span>
+          <div className="section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
+            <Sparkles className="size-3.5" strokeWidth={2.5} />
+            <span>Exclusivo IA Divulgadora</span>
           </div>
 
           <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Superpoderes que só a{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-sky-400 bg-clip-text text-transparent">
-              IA Divulgadora
-            </span>{" "}
-            tem
+            <span className="section-title-gradient">IA Divulgadora</span> tem
           </h2>
-          <p className="on-dark-copy-muted mx-auto mt-3 max-w-xl text-sm sm:text-base">
+          <p className="site-copy mx-auto mt-3 max-w-xl text-pretty text-sm sm:text-base">
             Funcionalidades exclusivas para quem quer escalar de verdade
           </p>
         </div>
 
-        <article className="superpowers-main-card relative mt-12 md:mt-14">
-          <span className="superpowers-main-card__badge">NOVO</span>
-
-          <div className="superpowers-main-card__light superpowers-main-card__light--blue" aria-hidden />
-          <div className="superpowers-main-card__light superpowers-main-card__light--green" aria-hidden />
+        <article className="relative mt-10 overflow-hidden rounded-2xl border border-cta/25 bg-black/35 p-5 shadow-[0_0_60px_-15px_color-mix(in_oklab,var(--cta)_30%,transparent)] backdrop-blur-sm md:mt-12 md:p-8">
+          <span className="absolute right-0 top-0 z-10 rounded-bl-xl rounded-tr-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white">
+            Novo
+          </span>
 
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)] lg:gap-8 xl:gap-10">
             <div className="lg:py-2">
               <div className="flex items-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/15 text-violet-400 shadow-[0_0_24px_-6px_rgb(139_92_246/0.45)]">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-cta/25 bg-cta/10 text-cta shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--cta)_40%,transparent)]">
                   <Users className="size-5" strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-bold text-white sm:text-2xl">Gestão de Leads</h3>
               </div>
 
-              <p className="superpowers-leads-tagline mt-4 text-sm font-medium leading-relaxed sm:text-base">
+              <p className="site-lead mt-4 text-sm font-medium leading-relaxed sm:text-base">
                 Chega de adivinhar se sua campanha está dando resultado.
               </p>
             </div>
 
             <div className="relative w-full lg:-mr-1">
-              <div
-                aria-hidden
-                className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-violet-500/20 via-transparent to-sky-500/15 blur-2xl"
-              />
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black/70 p-1 shadow-2xl lg:scale-[1.02] lg:origin-center">
+              <div className="relative overflow-hidden rounded-xl border border-cta/25 bg-black/40 p-1.5 shadow-[0_0_50px_-20px_color-mix(in_oklab,var(--cta)_35%,transparent)]">
                 <div className="overflow-hidden rounded-lg border border-white/5">
                   <img
                     src={leadsKpis}
@@ -164,27 +143,25 @@ export function Superpowers() {
             </div>
           </div>
 
-          <div className="on-dark-copy mt-8 grid gap-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-5 lg:mt-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-6">
+          <ul className="mt-8 grid list-none gap-3 p-0 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-4">
             {leadFeatures.map((feature) => (
               <LeadFeatureCard key={feature.title} feature={feature} />
             ))}
-          </div>
+          </ul>
 
-          <div className="superpowers-cta-bar mt-8 lg:mt-10">
+          <div className="mt-8 flex flex-col items-stretch gap-4 rounded-xl border border-white/10 bg-black/25 px-4 py-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5 md:mt-10">
             <div className="flex min-w-0 items-center gap-2.5">
-              <LineChart className="size-4 shrink-0 text-violet-400" strokeWidth={2} />
-              <span className="superpowers-cta-bar__title truncate text-sm font-semibold sm:text-base">
+              <Rocket className="size-4 shrink-0 text-cta" strokeWidth={2} />
+              <span className="truncate text-sm font-semibold text-white sm:text-base">
                 Quero Gestão de Leads
               </span>
             </div>
 
-            <div className="superpowers-cta-bar__divider hidden h-8 w-px shrink-0 sm:block" aria-hidden />
-
-            <p className="superpowers-cta-bar__subtitle hidden min-w-0 flex-1 text-xs leading-relaxed sm:block sm:text-sm">
+            <p className="site-copy min-w-0 flex-1 text-xs leading-relaxed sm:text-sm">
               Descubra seus leads reais e decida com mais inteligência.
             </p>
 
-            <CtaButton href="#planos" size="sm" className="w-full shrink-0 sm:ml-auto sm:w-auto">
+            <CtaButton href="#planos" size="lg" className="w-full shrink-0 sm:w-auto">
               Quero ativar agora
             </CtaButton>
           </div>

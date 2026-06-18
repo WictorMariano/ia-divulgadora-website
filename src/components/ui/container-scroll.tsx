@@ -32,13 +32,13 @@ export function ContainerScroll({
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const scaleDimensions = () => (isMobile ? [0.82, 0.96] : [1.04, 1]);
+  const scaleDimensions = () => (isMobile ? [0.86, 0.98] : [1.06, 1]);
   const rotate = useTransform(smoothProgress, [0, 1], [16, 0]);
   const scale = useTransform(smoothProgress, [0, 1], scaleDimensions());
   const translate = useTransform(smoothProgress, [0, 1], [0, -50]);
@@ -47,7 +47,7 @@ export function ContainerScroll({
     <div
       ref={containerRef}
       className={cn(
-        "relative mb-4 h-[52rem] md:mb-5 md:h-[68rem] lg:h-[72rem]",
+        "relative mb-4 h-[54rem] md:mb-5 md:h-[74rem] lg:h-[78rem]",
         scrollClassName,
       )}
     >
@@ -102,7 +102,7 @@ function ScrollCard({
         boxShadow:
           "0 -1px 0 rgb(56 189 248 / 0.25), 0 0 60px -10px rgb(56 189 248 / 0.35), 0 0 80px -15px rgb(251 146 60 / 0.28), 0 24px 48px -12px rgb(0 0 0 / 0.65), 0 48px 80px -24px rgb(0 0 0 / 0.5)",
       }}
-      className="panel-showcase-card relative mx-auto -mt-8 flex h-auto w-full max-w-5xl max-h-[min(32rem,calc(100svh-20rem))] flex-col rounded-[30px] border border-white/20 bg-black/95 p-2 sm:max-h-[min(36rem,calc(100svh-19rem))] md:-mt-10 md:max-h-[min(44rem,calc(100svh-18rem))] md:p-6"
+      className="panel-showcase-card relative mx-auto -mt-8 flex h-auto w-full max-w-5xl max-h-[min(34rem,calc(100svh-17rem))] min-h-[min(28rem,calc(100svh-22rem))] flex-col rounded-[30px] border border-white/20 bg-black/95 p-2 sm:max-h-[min(40rem,calc(100svh-15rem))] sm:min-h-[min(32rem,calc(100svh-20rem))] md:-mt-10 md:max-h-[min(52rem,calc(100svh-12rem))] md:min-h-[min(46rem,calc(100svh-13rem))] md:p-6 lg:max-h-[min(58rem,calc(100svh-10rem))] lg:min-h-[min(50rem,calc(100svh-11rem))]"
     >
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl bg-zinc-950 md:rounded-2xl md:p-4">
         {children}

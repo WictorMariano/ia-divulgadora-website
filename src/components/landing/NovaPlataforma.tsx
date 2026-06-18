@@ -6,14 +6,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Coins,
-  LayoutDashboard,
   LineChart,
   Rocket,
   Search,
   Users,
+  Zap,
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { CtaButton } from "@/components/ui/cta-button";
 import { SectionContainer } from "./SectionContainer";
 import dashboard1 from "@/assets/dashboard-1.png";
 import dashboard2 from "@/assets/dashboard-2.png";
@@ -32,7 +33,7 @@ const slides = [
 const features = [
   {
     icon: Users,
-    theme: "emerald",
+    theme: "cta",
     title: "Leads únicos reais",
     desc: "Sem contar a mesma pessoa em vários grupos",
   },
@@ -44,25 +45,25 @@ const features = [
   },
   {
     icon: LineChart,
-    theme: "violet",
+    theme: "amber",
     title: "Retenção e LTV",
     desc: "Veja quais grupos seguram mais leads e geram valor",
   },
   {
     icon: ArrowUpRight,
-    theme: "pink",
+    theme: "cta",
     title: "Movimentação completa",
     desc: "Acompanhe entradas e saídas com histórico",
   },
   {
     icon: Bell,
-    theme: "rose",
+    theme: "orange",
     title: "Alerta de lotação",
     desc: "Saiba antes de abrir outro grupo e perder leads",
   },
   {
     icon: Search,
-    theme: "sky",
+    theme: "amber",
     title: "Raio-X por grupo",
     desc: "Ativos, DDDs e desempenho individual de cada grupo",
   },
@@ -118,17 +119,19 @@ function PlatformFeatures() {
       <ul ref={listRef} onScroll={handleScroll} className="nova-plataforma-features__list">
         {features.map(({ icon: Icon, theme, title, desc }) => (
           <li key={title} className="nova-plataforma-features__item">
-            <div
-              className={cn(
-                "nova-plataforma-features__icon",
-                `nova-plataforma-features__icon--${theme}`,
-              )}
-            >
-              <Icon className="size-4" strokeWidth={2} />
-            </div>
-            <div className="min-w-0">
-              <p className="nova-plataforma-features__title">{title}</p>
-              <p className="nova-plataforma-features__desc">{desc}</p>
+            <div className="nova-plataforma-features__item-inner">
+              <div
+                className={cn(
+                  "nova-plataforma-features__icon",
+                  `nova-plataforma-features__icon--${theme}`,
+                )}
+              >
+                <Icon className="size-4" strokeWidth={2} />
+              </div>
+              <div className="min-w-0">
+                <p className="nova-plataforma-features__title">{title}</p>
+                <p className="nova-plataforma-features__desc">{desc}</p>
+              </div>
             </div>
           </li>
         ))}
@@ -149,7 +152,7 @@ function PlatformCarousel() {
         type="button"
         onClick={() => setIndex(prevIndex)}
         aria-label="Slide anterior"
-        className="absolute left-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:left-2 md:size-11"
+        className="absolute left-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-xl border border-white/20 bg-white/5 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:left-2 md:size-11"
       >
         <ChevronLeft className="size-5" />
       </button>
@@ -158,7 +161,7 @@ function PlatformCarousel() {
         type="button"
         onClick={() => setIndex(nextIndex)}
         aria-label="Próximo slide"
-        className="absolute right-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:right-2 md:size-11"
+        className="absolute right-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-xl border border-white/20 bg-white/5 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:right-2 md:size-11"
       >
         <ChevronRight className="size-5" />
       </button>
@@ -176,7 +179,7 @@ function PlatformCarousel() {
         </div>
 
         <div className="relative min-w-0 flex-1">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0a0e16] p-1.5 shadow-[0_0_60px_-15px_rgba(52,211,153,0.35)]">
+          <div className="overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-1.5 shadow-[0_0_60px_-15px_color-mix(in_oklab,var(--cta)_45%,transparent)] backdrop-blur-sm">
             <div className="overflow-hidden rounded-xl border border-white/5">
               <img
                 src={slides[index].src}
@@ -208,7 +211,7 @@ function PlatformCarousel() {
             onClick={() => setIndex(i)}
             className={cn(
               "size-2 rounded-full transition-colors",
-              i === index ? "bg-white" : "bg-white/25 hover:bg-white/40",
+              i === index ? "bg-cta" : "bg-white/25 hover:bg-white/40",
             )}
           />
         ))}
@@ -221,27 +224,25 @@ export function NovaPlataforma() {
   return (
     <section
       id="nova-plataforma"
-      className="relative overflow-hidden border-t border-white/8 py-16 md:py-24"
+      className="nova-plataforma-section relative overflow-hidden border-t border-white/8 bg-site-panel py-12 md:py-24"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,oklch(0.72_0.15_155/0.1),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_12%,transparent),transparent_55%)]"
       />
 
-      <SectionContainer>
+      <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5">
-            <LayoutDashboard className="size-3.5 text-emerald-400" strokeWidth={2.5} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300">
-              Nova plataforma
-            </span>
+          <div className="section-badge mb-5 backdrop-blur-sm">
+            <Zap className="size-3.5" strokeWidth={2.5} />
+            <span>Nova plataforma</span>
           </div>
 
-          <h2 className="mx-auto max-w-3xl text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl">
+          <h2 className="mx-auto max-w-3xl text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.5rem]">
             Seus grupos podem lucrar muito mais quando você{" "}
-            <span className="text-emerald-400">mede o que importa</span>
+            <span className="section-title-gradient">mede o que importa</span>
           </h2>
-          <p className="on-dark-copy-muted mx-auto mt-4 max-w-2xl text-sm sm:text-base">
+          <p className="site-copy mx-auto mt-4 max-w-2xl text-pretty text-sm leading-relaxed sm:text-base">
             Você investe para encher seus grupos, mas sem acompanhar os números certos acaba
             contando gente que entrou e saiu no mesmo dia.
           </p>
@@ -251,13 +252,9 @@ export function NovaPlataforma() {
         <PlatformFeatures />
 
         <div className="mt-10 flex justify-center md:mt-12">
-          <a
-            href="#planos"
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 px-8 text-sm font-bold text-white shadow-[0_0_32px_-8px_rgba(56,189,248,0.55)] transition-all hover:brightness-110"
-          >
-            <Rocket className="size-4" />
+          <CtaButton href="#planos" size="lg" icon={Rocket}>
             Quero Gestão de Leads
-          </a>
+          </CtaButton>
         </div>
       </SectionContainer>
     </section>

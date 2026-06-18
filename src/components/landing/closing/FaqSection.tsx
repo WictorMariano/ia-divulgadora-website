@@ -57,7 +57,7 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
         />
       </div>
 
-      <div className="mx-auto mt-7 flex max-w-2xl flex-wrap justify-center gap-2 sm:gap-2.5">
+      <div className="faq-category-row mx-auto mt-7 flex max-w-2xl flex-wrap justify-center gap-2 sm:gap-2.5">
         {faqCategories.map((cat) => (
           <button
             key={cat.id}

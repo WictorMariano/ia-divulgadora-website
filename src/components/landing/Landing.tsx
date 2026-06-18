@@ -1,5 +1,6 @@
 import { Hero } from "./Hero";
 import { SiteFlowBackground } from "./SiteFlowBackground";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { HeroScroll } from "./HeroScroll";
 import { MarketplacesStrip } from "./Marketplaces";
 import { Problems } from "./Problems";
@@ -17,29 +18,31 @@ import { ClosingExperience } from "./closing/ClosingExperience";
 
 export function Landing() {
   return (
-    <div className="relative min-h-screen max-w-full overflow-x-clip bg-site text-foreground">
-      <SiteFlowBackground />
-      <main className="relative z-10 max-w-full overflow-x-clip">
-        <Hero />
-        <div className="marketplaces-separator">
-          <div className="relative mx-auto max-w-7xl px-6">
-            <MarketplacesStrip />
+    <ThemeProvider>
+      <div className="relative min-h-screen max-w-full overflow-x-clip bg-site">
+        <SiteFlowBackground />
+        <main className="relative z-10 max-w-full overflow-x-clip">
+          <Hero />
+          <NovaPlataforma />
+          <Problems />
+          <div className="marketplaces-separator">
+            <div className="relative mx-auto max-w-7xl px-6">
+              <MarketplacesStrip />
+            </div>
           </div>
-        </div>
-        <HeroScroll />
-        <Problems />
-        <Modes />
-        <Superpowers />
-        <ExclusiveFeatures />
-        <MultiConnection />
-        <MarketplaceIntegrations />
-        <NovaPlataforma />
-        <AllResources />
-        <Pricing />
-        <Support />
-        <Testimonials />
-        <ClosingExperience />
-      </main>
-    </div>
+          <Modes />
+          <Superpowers />
+          <ExclusiveFeatures />
+          <MultiConnection />
+          <MarketplaceIntegrations />
+          <HeroScroll />
+          <AllResources />
+          <Pricing />
+          <Support />
+          <Testimonials />
+          <ClosingExperience />
+        </main>
+      </div>
+    </ThemeProvider>
   );
 }

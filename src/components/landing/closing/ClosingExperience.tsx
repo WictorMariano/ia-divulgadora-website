@@ -1,5 +1,4 @@
 import { ClosingBackground } from "./ClosingBackground";
-import { ClosingCta } from "./ClosingCta";
 import { FaqSection } from "./FaqSection";
 import { PremiumFooter } from "./PremiumFooter";
 import { SectionFullInner } from "../SectionPanel";
@@ -9,11 +8,8 @@ export function ClosingExperience() {
     <>
       <section id="faq" className="section-full-bleed section-full-bleed--closing">
         <ClosingBackground />
-        <SectionFullInner className="relative z-10 pt-16 pb-0 md:pt-20">
+        <SectionFullInner className="relative z-10 py-16 pb-8 md:py-20 md:pb-10">
           <FaqSection embedded />
-          <div aria-hidden className="closing-faq-cta-bridge mx-auto my-14 max-w-2xl md:my-16" />
-          <ClosingCta embedded />
-          <div className="pb-16 md:pb-20" />
         </SectionFullInner>
       </section>
       <PremiumFooter />

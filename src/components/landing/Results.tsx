@@ -41,13 +41,14 @@ const cards: {
   },
 ];
 
-function StatCard({
+export function StatCard({
   stat,
   label,
   description,
   theme,
   labelClass,
-}: (typeof cards)[number]) {
+  badge,
+}: (typeof cards)[number] & { badge?: string }) {
   return (
     <article className={cn("premium-stat-card", `premium-stat-card--${theme}`, "group flex h-full min-h-0 flex-col")}>
       <div className="premium-stat-card__glow-out1" aria-hidden />
@@ -56,6 +57,11 @@ function StatCard({
       <div className="premium-stat-card__shell">
         <div className="premium-stat-card__bg" aria-hidden />
         <div className="premium-stat-card__content">
+          {badge && (
+            <span className="absolute right-3 top-3 z-[2] rounded-md bg-gradient-to-r from-orange-500 to-orange-600 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-white">
+              {badge}
+            </span>
+          )}
           <div className="premium-stat-card__glare" aria-hidden />
           <div className="premium-stat-card__glow-in1" aria-hidden />
           <div className="premium-stat-card__glow-in2" aria-hidden />
@@ -70,7 +76,7 @@ function StatCard({
           >
             {label}
           </p>
-          <p className="premium-stat-card__desc relative z-[1] mt-3 flex-1 text-xs leading-relaxed text-zinc-400">
+          <p className="premium-stat-card__desc relative z-[1] mt-3 flex-1 text-xs leading-relaxed site-muted">
             {description}
           </p>
         </div>
@@ -97,7 +103,7 @@ export function Results({ embedded = false }: ResultsProps) {
         <div className="text-center">
           <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-4 py-2 backdrop-blur-sm">
             <LineChart className="size-3.5 text-orange-400" strokeWidth={2.5} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-300 sm:text-[11px]">
+            <span className="site-copy text-[10px] font-bold uppercase tracking-[0.2em] sm:text-[11px]">
               Números que <span className="text-orange-400">comprovam</span>
             </span>
           </div>

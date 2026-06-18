@@ -119,9 +119,9 @@ export function SiteFlowBackground() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
+    <div className="site-flow-bg pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
       <canvas ref={canvasRef} className="block h-full w-full" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_50%,transparent_40%,rgb(14_22_40/0.25)_75%,rgb(10_16_30/0.5))]" />
+      <div className="site-flow-bg__vignette absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_50%,transparent_40%,rgb(14_22_40/0.25)_75%,rgb(10_16_30/0.5))]" />
     </div>
   );
 }
