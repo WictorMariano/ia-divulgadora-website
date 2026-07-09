@@ -17,7 +17,7 @@ type Testimonial = {
 };
 
 const stats: Stat[] = [
-  { value: "+1.5k", label: "Afiliados ativos" },
+  { value: "+10k", label: "Afiliados ativos" },
   { value: "4.9", label: "Satisfação média" },
   { value: "+180%", label: "Em conversões" },
 ];
@@ -52,8 +52,10 @@ const testimonials: Testimonial[] = [
 function StatCard({ value, label }: Stat) {
   return (
     <div className="testimonial-stat-card rounded-xl border border-white/10 bg-white/[0.04] px-3 py-4 text-center backdrop-blur-sm">
-      <p className="font-display text-2xl font-bold text-white sm:text-3xl">{value}</p>
-      <p className="on-dark-copy-muted mt-1 text-xs sm:text-sm">{label}</p>
+      <p className="testimonial-stat-card__value font-display text-2xl font-bold text-white sm:text-3xl">
+        {value}
+      </p>
+      <p className="testimonial-stat-card__label on-dark-copy-muted mt-1 text-xs sm:text-sm">{label}</p>
     </div>
   );
 }
@@ -67,7 +69,9 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             key={i}
             className={cn(
               "size-4",
-              i < testimonial.rating ? "fill-amber-400 text-amber-400" : "text-white/20",
+              i < testimonial.rating
+                ? "fill-amber-400 text-amber-400"
+                : "testimonial-card__star-empty text-white/20",
             )}
           />
         ))}
@@ -77,13 +81,13 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         &ldquo;{testimonial.quote}&rdquo;
       </blockquote>
 
-      <footer className="mt-6 flex items-center gap-3 border-t border-white/8 pt-5">
+      <footer className="testimonial-card__footer mt-6 flex items-center gap-3 border-t border-white/8 pt-5">
         <div className="testimonial-card__avatar flex size-12 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white">
           {testimonial.avatarInitial}
         </div>
         <div className="min-w-0">
-          <p className="font-semibold text-white">{testimonial.name}</p>
-          <p className="on-dark-copy-muted truncate text-sm">{testimonial.title}</p>
+          <p className="testimonial-card__name font-semibold text-white">{testimonial.name}</p>
+          <p className="testimonial-card__role on-dark-copy-muted truncate text-sm">{testimonial.title}</p>
         </div>
       </footer>
     </article>
@@ -110,7 +114,7 @@ export function Testimonials() {
   return (
     <section
       id="depoimentos"
-      className="section-full-bleed section-full-bleed--testimonials w-full max-w-full"
+      className="testimonials-section section-full-bleed section-full-bleed--testimonials w-full max-w-full"
     >
       <div className="testimonials-section-bg relative py-20 md:py-28">
         <div aria-hidden className="testimonials-section-bg__mesh" />
@@ -120,20 +124,20 @@ export function Testimonials() {
         <SectionFullInner className="relative z-10">
           <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20">
             <div className="flex flex-col gap-6 lg:sticky lg:top-20 lg:self-start">
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm">
+              <div className="testimonials-section__badge inline-flex w-fit items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-sm">
                 <span className="size-2 rounded-full bg-orange-400" aria-hidden />
                 <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-orange-400">
                   Depoimentos reais
                 </span>
               </div>
 
-              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+              <h2 className="testimonials-section__title font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
                 Afiliados que já escalaram com a{" "}
-                <span className="bg-gradient-to-r from-sky-400 to-orange-400 bg-clip-text text-transparent">
+                <span className="testimonials-section__title-accent bg-gradient-to-r from-sky-400 to-orange-400 bg-clip-text text-transparent">
                   IA Divulgadora
                 </span>
               </h2>
-              <p className="on-dark-copy-muted max-w-lg text-base leading-relaxed sm:text-lg">
+              <p className="testimonials-section__subtitle on-dark-copy-muted max-w-lg text-base leading-relaxed sm:text-lg">
                 Veja como creators e afiliados automatizaram grupos, recuperaram tempo e
                 aumentaram conversões com a plataforma.
               </p>

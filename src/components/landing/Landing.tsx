@@ -2,7 +2,6 @@ import { Hero } from "./Hero";
 import { SiteFlowBackground } from "./SiteFlowBackground";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { HeroScroll } from "./HeroScroll";
-import { MarketplacesStrip } from "./Marketplaces";
 import { Problems } from "./Problems";
 import { Modes } from "./Modes";
 import { Superpowers } from "./Superpowers";
@@ -25,11 +24,6 @@ export function Landing() {
           <Hero />
           <NovaPlataforma />
           <Problems />
-          <div className="marketplaces-separator">
-            <div className="relative mx-auto max-w-7xl px-6">
-              <MarketplacesStrip />
-            </div>
-          </div>
           <Modes />
           <Superpowers />
           <ExclusiveFeatures />

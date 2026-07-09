@@ -1,89 +1,41 @@
-import { LineChart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Activity, LineChart, Store, TrendingUp, Users } from "lucide-react";
+import { AccentBenefitCard } from "./AccentBenefitCard";
 import { SectionContainer } from "./SectionContainer";
 
-type StatTheme = "blue" | "orange" | "split" | "aurora";
-
-const cards: {
-  stat: string;
-  label: string;
-  description: string;
-  theme: StatTheme;
-  labelClass: string;
-}[] = [
+const cards = [
   {
-    stat: "+1560",
-    label: "Afiliados ativos",
+    icon: Users,
+    stat: "+10k",
+    title: "Afiliados ativos",
     description: "Comunidade que escala vendas todos os dias com automação.",
-    theme: "blue",
-    labelClass: "text-sky-400",
+    accent: "#38bdf8",
+    accentRgb: "56,189,248",
   },
   {
+    icon: TrendingUp,
     stat: "até 180%",
-    label: "Aumento em conversões",
+    title: "Aumento em conversões",
     description: "Ofertas certas, no timing certo, com copy que converte.",
-    theme: "orange",
-    labelClass: "text-orange-400",
+    accent: "#f97316",
+    accentRgb: "249,115,22",
   },
   {
+    icon: Activity,
     stat: "24/7",
-    label: "Monitoramento automático",
+    title: "Monitoramento automático",
     description: "Sua operação rodando sem pausas, de dia ou de madrugada.",
-    theme: "split",
-    labelClass: "text-amber-300",
+    accent: "#fbbf24",
+    accentRgb: "251,191,36",
   },
   {
+    icon: Store,
     stat: "5+",
-    label: "Marketplaces integrados",
+    title: "Marketplaces integrados",
     description: "Centralize lojas, links e promoções em um único painel.",
-    theme: "aurora",
-    labelClass: "text-violet-300",
+    accent: "#a78bfa",
+    accentRgb: "167,139,250",
   },
 ];
-
-export function StatCard({
-  stat,
-  label,
-  description,
-  theme,
-  labelClass,
-  badge,
-}: (typeof cards)[number] & { badge?: string }) {
-  return (
-    <article className={cn("premium-stat-card", `premium-stat-card--${theme}`, "group flex h-full min-h-0 flex-col")}>
-      <div className="premium-stat-card__glow-out1" aria-hidden />
-      <div className="premium-stat-card__glow-out2" aria-hidden />
-      <div className="premium-stat-card__glow" aria-hidden />
-      <div className="premium-stat-card__shell">
-        <div className="premium-stat-card__bg" aria-hidden />
-        <div className="premium-stat-card__content">
-          {badge && (
-            <span className="absolute right-3 top-3 z-[2] rounded-md bg-gradient-to-r from-orange-500 to-orange-600 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-white">
-              {badge}
-            </span>
-          )}
-          <div className="premium-stat-card__glare" aria-hidden />
-          <div className="premium-stat-card__glow-in1" aria-hidden />
-          <div className="premium-stat-card__glow-in2" aria-hidden />
-          <p className="relative z-[1] text-3xl font-bold tracking-tight text-white md:text-4xl">
-            {stat}
-          </p>
-          <p
-            className={cn(
-              "relative z-[1] mt-1 text-[11px] font-semibold uppercase tracking-[0.16em]",
-              labelClass,
-            )}
-          >
-            {label}
-          </p>
-          <p className="premium-stat-card__desc relative z-[1] mt-3 flex-1 text-xs leading-relaxed site-muted">
-            {description}
-          </p>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 type ResultsProps = {
   embedded?: boolean;
@@ -95,7 +47,7 @@ export function Results({ embedded = false }: ResultsProps) {
       id="resultados"
       className={
         embedded
-          ? "relative pb-16 pt-8 md:pb-24 md:pt-12 lg:pt-14"
+          ? "relative pb-16 pt-20 md:pb-24 md:pt-28 lg:pt-32"
           : "panel-showcase relative overflow-hidden pb-20 pt-16 md:pb-28 md:pt-24"
       }
     >
@@ -109,9 +61,9 @@ export function Results({ embedded = false }: ResultsProps) {
           </div>
         </div>
 
-        <div className="mt-10 grid auto-rows-fr items-stretch gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-5">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-5">
           {cards.map((card) => (
-            <StatCard key={card.label} {...card} />
+            <AccentBenefitCard key={card.title} {...card} />
           ))}
         </div>
       </SectionContainer>

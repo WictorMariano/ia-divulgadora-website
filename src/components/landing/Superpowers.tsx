@@ -90,7 +90,7 @@ export function Superpowers() {
   return (
     <section
       id="superpoderes"
-      className="grid-glow-section relative overflow-hidden border-t border-white/8 py-12 md:py-24"
+      className="grid-glow-section relative overflow-hidden py-12 md:py-24"
     >
       <div aria-hidden className="grid-glow-section__glow" />
 

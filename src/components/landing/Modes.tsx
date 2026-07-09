@@ -6,16 +6,17 @@ import {
   Flame,
   Link2,
   Pencil,
-  Radar,
   Search,
   Send,
   Sparkles,
+  Star,
   Target,
   Zap,
 } from "lucide-react";
 import { SectionContainer } from "./SectionContainer";
 import { SectionCta } from "./SectionCta";
 import { ControlDetails } from "./ControlDetails";
+import { ModesSectionBackground } from "./ModesSectionBackground";
 import { CtaButton } from "@/components/ui/cta-button";
 import { cn } from "@/lib/utils";
 import espelhamentoImg from "@/assets/modo-espelhamento.png";
@@ -35,7 +36,7 @@ type ModeConfig = {
   headline: string;
   headlineHighlight: string;
   description: string;
-  features: { icon: LucideIcon; text: string }[];
+  features: { icon: LucideIcon; text: string; detail?: string }[];
   flow: { icon: LucideIcon; label: string; color: string }[];
   footerText: string;
   footerHighlight: string;
@@ -57,7 +58,7 @@ const modes: ModeConfig[] = [
     tabNumber: "01",
     tabTitle: "Monitoramento",
     tabSubtitle: "24h por dia",
-    tabIcon: Radar,
+    tabIcon: Target,
     accent: "sky",
     modeLabel: "Modo Monitoramento",
     headline: "Espelhamento Inteligente",
@@ -65,10 +66,26 @@ const modes: ModeConfig[] = [
     description:
       "A IA monitora grupos de ofertas 24 horas por dia, identifica promoções, converte links, monta o post e envia nos seus grupos — tudo no automático.",
     features: [
-      { icon: Search, text: "Monitora grupos em tempo real" },
-      { icon: Flame, text: "Detecta as melhores ofertas" },
-      { icon: Link2, text: "Converte link + aplica cupom" },
-      { icon: Send, text: "Cria o post e envia automaticamente" },
+      {
+        icon: Search,
+        text: "Monitora grupos em tempo real",
+        detail: "Vigia continuamente as melhores oportunidades.",
+      },
+      {
+        icon: Flame,
+        text: "Detecta as melhores ofertas",
+        detail: "Filtra e seleciona promoções com alto potencial.",
+      },
+      {
+        icon: Link2,
+        text: "Converte link + aplica cupom",
+        detail: "Deixa tudo pronto para gerar mais conversões.",
+      },
+      {
+        icon: Send,
+        text: "Cria o post e envia automaticamente",
+        detail: "Publica nos seus grupos com agilidade e precisão.",
+      },
     ],
     flow: [
       { icon: Target, label: "1. Detecta Oferta", color: "text-sky-400 bg-sky-500/15" },
@@ -94,10 +111,26 @@ const modes: ModeConfig[] = [
     description:
       "Mantém a mensagem original intacta — texto, formatação e imagens. Troca só o link de afiliado e gera cupom quando houver.",
     features: [
-      { icon: Search, text: "Monitora grupos 24h" },
-      { icon: Copy, text: "Captura a mensagem original" },
-      { icon: Link2, text: "Converte o link automaticamente" },
-      { icon: Send, text: "Dispara sem reformatar" },
+      {
+        icon: Search,
+        text: "Monitora grupos 24h",
+        detail: "Captura ofertas assim que aparecem nos grupos.",
+      },
+      {
+        icon: Copy,
+        text: "Captura a mensagem original",
+        detail: "Mantém texto, imagem e formatação intactos.",
+      },
+      {
+        icon: Link2,
+        text: "Converte o link automaticamente",
+        detail: "Substitui pelo seu link de afiliado.",
+      },
+      {
+        icon: Send,
+        text: "Dispara sem reformatar",
+        detail: "Publica igual ao original, só com seu link.",
+      },
     ],
     flow: [
       { icon: Copy, label: "1. Captura Post", color: "text-emerald-400 bg-emerald-500/15" },
@@ -123,10 +156,26 @@ const modes: ModeConfig[] = [
     description:
       "Cole o link da oferta, a IA converte pro seu link de afiliado e monta o post completo com imagem, preço e CTA em segundos.",
     features: [
-      { icon: Link2, text: "Cole o link do marketplace" },
-      { icon: Zap, text: "IA reconhece e converte o link" },
-      { icon: Pencil, text: "Post pronto com imagem e preço" },
-      { icon: Send, text: "Dispare com 1 clique" },
+      {
+        icon: Link2,
+        text: "Cole o link do marketplace",
+        detail: "Qualquer loja integrada em segundos.",
+      },
+      {
+        icon: Zap,
+        text: "IA reconhece e converte o link",
+        detail: "Afiliado aplicado automaticamente.",
+      },
+      {
+        icon: Pencil,
+        text: "Post pronto com imagem e preço",
+        detail: "Título, desconto e CTA inclusos.",
+      },
+      {
+        icon: Send,
+        text: "Dispare com 1 clique",
+        detail: "Envie para todos os grupos de uma vez.",
+      },
     ],
     flow: [
       { icon: Link2, label: "1. Cola Link", color: "text-orange-400 bg-orange-500/15" },
@@ -152,10 +201,26 @@ const modes: ModeConfig[] = [
     description:
       "Organize ofertas em fila, defina horários e intervalos. O sistema publica no timing certo para maximizar conversões.",
     features: [
-      { icon: Clock, text: "Programe envios automáticos" },
-      { icon: Target, text: "Defina horários e intervalos" },
-      { icon: Search, text: "Organize por nicho ou loja" },
-      { icon: Send, text: "Envio no timing certo" },
+      {
+        icon: Clock,
+        text: "Programe envios automáticos",
+        detail: "Defina dia e horário com precisão.",
+      },
+      {
+        icon: Target,
+        text: "Defina horários e intervalos",
+        detail: "Evite spam e maximize engajamento.",
+      },
+      {
+        icon: Search,
+        text: "Organize por nicho ou loja",
+        detail: "Filas separadas para cada estratégia.",
+      },
+      {
+        icon: Send,
+        text: "Envio no timing certo",
+        detail: "Publica no horário de maior conversão.",
+      },
     ],
     flow: [
       { icon: Clock, label: "1. Agenda", color: "text-blue-400 bg-blue-500/15" },
@@ -277,15 +342,17 @@ function ModeStepImage({
   const accent = accentMap[accentKey];
 
   return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-2 shadow-[0_0_50px_-20px_color-mix(in_oklab,var(--cta)_35%,transparent)] backdrop-blur-sm",
-        accent.visualBorder,
-        accent.visualGlow,
-      )}
-    >
-      <div className="overflow-hidden rounded-xl border border-white/5">
-        <img src={src} alt={alt} className="block h-auto w-full object-cover" loading="lazy" />
+    <div className="mode-step-section__image-frame">
+      <div
+        className={cn(
+          "mode-step-section__image-shell relative overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-2 shadow-[0_0_50px_-20px_color-mix(in_oklab,var(--cta)_35%,transparent)] backdrop-blur-sm",
+          accent.visualBorder,
+          accent.visualGlow,
+        )}
+      >
+        <div className="mode-step-section__image-inner overflow-hidden rounded-xl border border-white/5">
+          <img src={src} alt={alt} className="block h-auto w-full object-cover" loading="lazy" />
+        </div>
       </div>
     </div>
   );
@@ -361,7 +428,7 @@ function ModeStepSection({ mode, index }: { mode: ModeConfig; index: number }) {
   return (
     <div
       className={cn(
-        "mode-step-section relative border-t border-white/8 py-12 md:py-16",
+        "mode-step-section relative py-12 md:py-16",
         index === 0 && "mt-10 md:mt-12",
       )}
     >
@@ -375,10 +442,10 @@ function ModeStepSection({ mode, index }: { mode: ModeConfig; index: number }) {
         )}
       />
 
-      <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
         <div
           className={cn(
-            "order-1 flex flex-col",
+            "mode-step-section__visual order-1 flex flex-col",
             imageFirst ? "lg:order-1" : "lg:order-2",
           )}
         >
@@ -394,56 +461,82 @@ function ModeStepSection({ mode, index }: { mode: ModeConfig; index: number }) {
           {mode.id !== "agendamento" && (
             <div
               className={cn(
-                "mt-5 flex justify-center",
-                imageFirst ? "lg:justify-start" : "lg:justify-end",
+                "mode-step-section__cta mt-5 flex justify-center",
+                imageFirst ? "lg:justify-center" : "lg:justify-center",
               )}
             >
-              <CtaButton href="#planos" size="lg">
+              <CtaButton href="#planos" size="lg" className="mode-step-section__cta-btn">
                 Começar gratuitamente
               </CtaButton>
             </div>
           )}
         </div>
 
-        <div className={cn("order-2 flex flex-col", imageFirst ? "lg:order-2" : "lg:order-1")}>
-          <div className="section-badge mb-4 w-fit backdrop-blur-sm">
-            <TabIcon className="size-3.5" strokeWidth={2.5} />
+        <div
+          className={cn(
+            "mode-step-section__copy order-2 flex flex-col",
+            imageFirst ? "lg:order-2" : "lg:order-1",
+          )}
+        >
+          <article className="mode-step-section__card">
+            <div className="mode-step-section__badge section-badge mb-4 w-fit backdrop-blur-sm">
+              <TabIcon className="size-3.5" strokeWidth={2.5} />
+              <span>
+                {mode.tabNumber} - {mode.tabTitle}
+              </span>
+            </div>
+
+            <p className="mode-step-section__mode-label text-[11px] font-bold uppercase tracking-[0.14em] text-cta">
+              {mode.modeLabel}
+            </p>
+            <h3 className="mode-step-section__title mt-2 text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-[2rem]">
+              {mode.headline}{" "}
+              <span className="mode-step-section__title-accent section-title-gradient">
+                {mode.headlineHighlight}
+              </span>
+            </h3>
+            <p className="mode-step-section__desc site-copy mt-3 text-pretty text-sm leading-relaxed sm:text-base">
+              {mode.description}
+            </p>
+
+            <ul className="mode-step-section__features mt-6 space-y-2.5">
+              {mode.features.map(({ icon: Icon, text, detail }) => (
+                <li key={text} className="mode-step-section__feature flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm">
+                  <div
+                    className={cn(
+                      "mode-step-section__feature-icon flex size-9 shrink-0 items-center justify-center rounded-full",
+                      accent.featureIcon,
+                    )}
+                  >
+                    <Icon className="size-4" strokeWidth={2} />
+                  </div>
+                  <div className="mode-step-section__feature-text min-w-0 pt-0.5">
+                    <p className="mode-step-section__feature-title site-lead text-sm font-semibold leading-snug">
+                      {text}
+                    </p>
+                    {detail ? (
+                      <p className="mode-step-section__feature-detail site-copy mt-0.5 text-xs leading-relaxed sm:text-sm">
+                        {detail}
+                      </p>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <p className="mode-step-section__footer site-copy mt-5 flex items-start gap-2 text-sm sm:mt-6 sm:text-base">
+            <Star
+              className="mode-step-section__footer-icon mt-0.5 size-4 shrink-0 text-orange-400"
+              strokeWidth={2}
+              fill="currentColor"
+            />
             <span>
-              {mode.tabNumber} · {mode.tabTitle}
+              {mode.footerText}{" "}
+              <span className="mode-step-section__footer-highlight font-semibold text-orange-400">
+                {mode.footerHighlight}
+              </span>
             </span>
-          </div>
-
-          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-cta">{mode.modeLabel}</p>
-          <h3 className="mt-2 text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-[2rem]">
-            {mode.headline}{" "}
-            <span className="section-title-gradient">{mode.headlineHighlight}</span>
-          </h3>
-          <p className="site-copy mt-3 text-pretty text-sm leading-relaxed sm:text-base">
-            {mode.description}
-          </p>
-
-          <ul className="mt-6 space-y-2.5">
-            {mode.features.map(({ icon: Icon, text }) => (
-              <li
-                key={text}
-                className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm"
-              >
-                <div
-                  className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-lg",
-                    accent.featureIcon,
-                  )}
-                >
-                  <Icon className="size-4" strokeWidth={2} />
-                </div>
-                <span className="site-lead text-sm">{text}</span>
-              </li>
-            ))}
-          </ul>
-
-          <p className="site-copy mt-6 text-sm sm:mt-8 sm:text-base">
-            {mode.footerText}{" "}
-            <span className="font-semibold text-orange-400">{mode.footerHighlight}</span>
           </p>
         </div>
       </div>
@@ -455,8 +548,9 @@ export function Modes() {
   return (
     <section
       id="modos"
-      className="panel-showcase relative overflow-hidden border-t border-white/8 py-12 md:py-24"
+      className="modes-section panel-showcase relative overflow-hidden py-12 md:py-24"
     >
+      <ModesSectionBackground />
       <div aria-hidden className="panel-showcase-lights pointer-events-none absolute inset-0 overflow-hidden">
         <div className="panel-showcase-light panel-showcase-light--blue" />
         <div className="panel-showcase-light panel-showcase-light--orange" />
@@ -465,21 +559,21 @@ export function Modes() {
       </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_10%,transparent),transparent_55%)]"
+        className="modes-section__glow pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_10%,transparent),transparent_55%)]"
       />
 
       <SectionContainer className="relative z-10">
-        <div className="text-center">
-          <div className="section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
+        <div className="modes-section__header text-center">
+          <div className="modes-section__badge section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
             <Sparkles className="size-3.5" strokeWidth={2.5} />
             <span>Automação inteligente</span>
           </div>
 
-          <h2 className="text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="modes-section__title text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Como Funciona a{" "}
             <span className="section-title-gradient">IA Divulgadora</span>?
           </h2>
-          <p className="site-copy mx-auto mt-3 max-w-xl text-pretty text-sm sm:text-base">
+          <p className="modes-section__subtitle site-copy mx-auto mt-3 max-w-xl text-pretty text-sm sm:text-base">
             Quatro formas poderosas de automatizar suas vendas de afiliado
           </p>
         </div>

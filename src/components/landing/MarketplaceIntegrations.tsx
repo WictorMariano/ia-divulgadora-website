@@ -29,14 +29,7 @@ const featuredMarketplaces: Marketplace[] = [
   { name: "Avon", logo: avonLogo },
 ];
 
-const additionalMarketplaces: Marketplace[] = [
-  { name: "Netshoes" },
-  { name: "Americanas" },
-  { name: "Centauro" },
-  { name: "Casas Bahia" },
-];
-
-const allMarketplaces: Marketplace[] = [...featuredMarketplaces, ...additionalMarketplaces];
+const allMarketplaces: Marketplace[] = featuredMarketplaces;
 
 function MarketplaceLogo({ name, logo }: Marketplace) {
   return (
@@ -141,7 +134,7 @@ export function MarketplaceIntegrations() {
                 type="button"
                 onClick={() => setShowAll((prev) => !prev)}
                 aria-expanded={showAll}
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-cta/30 hover:bg-cta/10 sm:w-auto"
+                className="site-button-secondary site-button-secondary--lg sm:w-auto"
               >
                 {showAll ? "Ver menos" : "Ver todos"}
                 <ChevronDown

@@ -1,5 +1,5 @@
 import { ContainerScroll } from "@/components/ui/container-scroll";
-import dashboardImg from "@/assets/dashboard-preview.png";
+import dashboardImg from "@/assets/dashboard-v1.jpeg";
 import { Results } from "./Results";
 import { SectionCta } from "./SectionCta";
 
@@ -38,7 +38,7 @@ export function HeroScroll() {
             width={1600}
             height={900}
             draggable={false}
-            className="block h-full w-full object-contain object-center"
+            className="block h-full w-full object-cover object-top"
           />
         </ContainerScroll>
 

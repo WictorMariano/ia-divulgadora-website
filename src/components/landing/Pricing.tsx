@@ -22,6 +22,7 @@ type PlanConfig = {
   id: string;
   label: string;
   name: string;
+  nameHighlight?: string;
   prices: Record<BillingCycle, string>;
   tagline: string;
   features: PlanFeature[];
@@ -36,6 +37,7 @@ const planConfigs: PlanConfig[] = [
     id: "iniciante",
     label: "Pra quem tá começando",
     name: "Afiliado Iniciante",
+    nameHighlight: "Iniciante",
     prices: { mensal: "R$ 69,90", anual: "R$ 59,90" },
     tagline: "Comece a divulgar sem limite.",
     features: [
@@ -52,6 +54,7 @@ const planConfigs: PlanConfig[] = [
     id: "pro",
     label: "Pra quem tá crescendo",
     name: "Afiliado Pro",
+    nameHighlight: "Pro",
     prices: { mensal: "R$ 99,00", anual: "R$ 79,20" },
     tagline: "Automatize seus grupos.",
     features: [
@@ -75,7 +78,7 @@ const planConfigs: PlanConfig[] = [
     prices: { mensal: "R$ 179,90", anual: "R$ 143,90" },
     tagline: "Recursos para operar em escala:",
     highlight: true,
-    highlightBadge: "Mais escolhido",
+    highlightBadge: "★ Mais escolhido",
     features: [
       "Disparo para 10 grupos",
       "Gestão de Leads",
@@ -129,6 +132,20 @@ function getEnterprisePrice(groups: EnterpriseGroupTier, billing: BillingCycle):
   return formatPlanPrice(value);
 }
 
+function PlanName({ name, highlight }: { name: string; highlight?: string }) {
+  if (!highlight) {
+    return <>{name}</>;
+  }
+
+  const prefix = name.replace(highlight, "").trim();
+
+  return (
+    <>
+      {prefix} <span className="pricing-plan-name-accent">{highlight}</span>
+    </>
+  );
+}
+
 function BillingToggle({
   billing,
   onChange,
@@ -145,22 +162,22 @@ function BillingToggle({
           if (value === "mensal" || value === "anual") onChange(value);
         }}
         aria-label="Selecionar ciclo de cobrança"
-        className="rounded-xl border border-white/15 bg-white/5 p-1"
+        className="pricing-billing-toggle__group rounded-full border border-white/15 bg-white/5 p-1"
       >
         <ToggleGroupItem
           value="mensal"
           aria-label="Cobrança mensal"
-          className="rounded-lg px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-all data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
+          className="pricing-billing-toggle__item rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
         >
           Mensal
         </ToggleGroupItem>
         <ToggleGroupItem
           value="anual"
           aria-label="Cobrança anual"
-          className="relative rounded-lg px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-all data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
+          className="pricing-billing-toggle__item pricing-billing-toggle__item--annual relative rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
         >
           Anual
-          <span className="absolute -top-3 right-0 whitespace-nowrap rounded-full bg-emerald-500/15 px-1.5 text-[10px] font-semibold text-emerald-400">
+          <span className="pricing-billing-toggle__discount absolute -top-3 right-0 whitespace-nowrap rounded-full bg-emerald-500/15 px-1.5 text-[10px] font-semibold text-emerald-400">
             Economize {ANNUAL_DISCOUNT_PERCENT}%
           </span>
         </ToggleGroupItem>
@@ -193,14 +210,17 @@ function PlanPrice({
     <div className="mt-4 text-center">
       <p className="pricing-plan-price text-4xl font-extrabold tracking-tight sm:text-[2.5rem]">
         {price}
-        <span className="text-lg font-semibold text-[var(--site-text-muted)]"> /mês</span>
+        <span className="pricing-plan-price-suffix text-lg font-semibold text-[var(--site-text-muted)]">
+          {" "}
+          /mês
+        </span>
       </p>
       {billing === "anual" && mensalPrice && (
         <>
-          <p className="mt-1 text-xs text-emerald-400">
+          <p className="pricing-annual-note mt-1 text-xs text-emerald-400">
             Valor mensal equivalente no plano anual
           </p>
-          <p className="mt-1 text-xs text-[var(--site-text-subtle)] line-through opacity-70">
+          <p className="pricing-annual-strike mt-1 text-xs text-[var(--site-text-subtle)] line-through opacity-70">
             {mensalPrice}/mês
           </p>
         </>
@@ -220,17 +240,17 @@ function PlanCard({ plan, billing }: { plan: PlanConfig; billing: BillingCycle }
       )}
     >
       {plan.highlightBadge && (
-        <span className="absolute -top-3 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
+        <span className="pricing-plan-badge absolute -top-3 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
           {plan.highlightBadge}
         </span>
       )}
 
       <CardHeader className="p-6 pb-0 text-center">
-        <span className="site-subtle text-[10px] font-bold uppercase tracking-[0.16em]">
+        <span className="pricing-plan-label site-subtle text-[10px] font-bold uppercase tracking-[0.16em]">
           {plan.label}
         </span>
         <CardTitle className="pricing-plan-name mt-2 text-2xl font-bold sm:text-[1.65rem]">
-          {plan.name}
+          <PlanName name={plan.name} highlight={plan.nameHighlight} />
         </CardTitle>
 
         <PlanPrice
@@ -239,7 +259,7 @@ function PlanCard({ plan, billing }: { plan: PlanConfig; billing: BillingCycle }
           mensalPrice={plan.prices.mensal}
         />
 
-        <CardDescription className="site-copy mx-auto mt-3 max-w-[16rem] text-sm">
+        <CardDescription className="pricing-plan-tagline site-copy mx-auto mt-3 max-w-[16rem] text-sm">
           {plan.tagline}
         </CardDescription>
       </CardHeader>
@@ -259,12 +279,9 @@ function PlanCard({ plan, billing }: { plan: PlanConfig; billing: BillingCycle }
 
       <CardFooter className="mt-auto flex-col gap-2.5 p-6 pt-5">
         {plan.secondaryCta && (
-          <button
-            type="button"
-            className="site-lead h-11 w-full rounded-xl border border-sky-400/35 bg-transparent text-sm font-semibold text-sky-300 transition-colors hover:border-sky-400/55 hover:bg-sky-400/10"
-          >
+          <CtaButton variant="outline" fullWidth size="sm" showArrow={false}>
             {plan.secondaryCta}
-          </button>
+          </CtaButton>
         )}
         <CtaButton fullWidth size="sm" showArrow={false}>
           {plan.primaryCta}
@@ -287,9 +304,9 @@ function EnterpriseCard({ billing }: { billing: BillingCycle }) {
   ];
 
   return (
-    <Card className="pricing-plan-card flex h-full flex-col border-white/10 bg-black/35 text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-black/30">
+    <Card className="pricing-plan-card pricing-plan-card--enterprise flex h-full flex-col border-white/10 bg-black/35 text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-black/30">
       <CardHeader className="p-6 pb-0 text-center">
-        <span className="site-subtle text-[10px] font-bold uppercase tracking-[0.16em]">
+        <span className="pricing-plan-label site-subtle text-[10px] font-bold uppercase tracking-[0.16em]">
           Pra creators e times
         </span>
         <CardTitle className="pricing-plan-name mt-2 text-2xl font-bold sm:text-[1.65rem]">
@@ -297,28 +314,35 @@ function EnterpriseCard({ billing }: { billing: BillingCycle }) {
         </CardTitle>
 
         <div className="mt-4 text-center">
-          <p className="text-sm text-[var(--site-text-muted)]">a partir de</p>
+          <p className="pricing-enterprise-from text-sm text-[var(--site-text-muted)]">a partir de</p>
           <p className="pricing-plan-price text-4xl font-extrabold tracking-tight sm:text-[2.5rem]">
             {getEnterprisePrice(groups, billing)}
-            <span className="text-lg font-semibold text-[var(--site-text-muted)]"> /mês</span>
+            <span className="pricing-plan-price-suffix text-lg font-semibold text-[var(--site-text-muted)]">
+              {" "}
+              /mês
+            </span>
           </p>
           {billing === "anual" && (
-            <p className="mt-1 text-xs text-emerald-400">Valor mensal equivalente no plano anual</p>
+            <p className="pricing-annual-note mt-1 text-xs text-emerald-400">
+              Valor mensal equivalente no plano anual
+            </p>
           )}
         </div>
 
-        <CardDescription className="site-copy mx-auto mt-3 max-w-[16rem] text-sm">
-          Estrutura para alto volume:
+        <CardDescription className="pricing-plan-tagline site-copy mx-auto mt-3 max-w-[16rem] text-sm">
+          Estrutura para alto volume.
         </CardDescription>
       </CardHeader>
 
       <CardContent className="flex-grow px-6 pb-0 pt-5">
         <div className="pricing-card-divider mb-4 h-px w-full" aria-hidden />
 
-        <div className="rounded-xl border border-white/10 bg-black/30 p-4">
+        <div className="pricing-enterprise-slider rounded-xl border border-white/10 bg-black/30 p-4">
           <div className="flex items-center justify-between text-xs">
-            <span className="site-copy font-semibold">Grupos de Envio</span>
-            <span className="font-bold text-cta">{groups}</span>
+            <span className="pricing-enterprise-slider__label site-copy font-semibold">
+              Grupos de Envio
+            </span>
+            <span className="pricing-enterprise-slider__value font-bold text-cta">{groups}</span>
           </div>
           <input
             type="range"
@@ -337,7 +361,7 @@ function EnterpriseCard({ billing }: { billing: BillingCycle }) {
             }
             aria-label="Quantidade de grupos de envio"
           />
-          <div className="site-subtle mt-2 flex justify-between text-[10px]">
+          <div className="pricing-enterprise-slider__scale site-subtle mt-2 flex justify-between text-[10px]">
             {enterpriseGroupOptions.map((value) => (
               <span key={value}>{value}</span>
             ))}
@@ -356,7 +380,7 @@ function EnterpriseCard({ billing }: { billing: BillingCycle }) {
           href="https://wa.me/5500000000000"
           target="_blank"
           rel="noopener noreferrer"
-          className="site-lead flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-emerald-500/35 bg-transparent text-sm font-semibold text-emerald-300 transition-colors hover:border-emerald-500/55 hover:bg-emerald-500/10"
+          className="pricing-enterprise-consultant site-button-secondary site-button-secondary--full"
         >
           <MessageCircle className="size-4" />
           Falar com consultor
@@ -375,41 +399,51 @@ export function Pricing() {
   return (
     <section
       id="planos"
-      className="panel-showcase relative overflow-x-clip border-t border-white/8 py-12 md:py-24"
+      className="pricing-section panel-showcase relative overflow-x-clip border-t border-white/8 py-12 md:py-24"
     >
       <div aria-hidden className="panel-showcase-lights pointer-events-none absolute inset-0 overflow-hidden">
         <div className="panel-showcase-light panel-showcase-light--blue" />
         <div className="panel-showcase-light panel-showcase-light--orange" />
         <div className="panel-showcase-vignette" />
       </div>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_10%,transparent),transparent_55%)]"
-      />
+      <div aria-hidden className="pricing-section__glow pointer-events-none absolute inset-0" />
 
       <SectionContainer className="relative z-10">
-        <div className="mb-8 text-center">
-          <div className="section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
+        <div className="pricing-section__header mb-8 text-center">
+          <div className="pricing-section__badge section-badge mx-auto mb-5 w-fit backdrop-blur-sm">
             <Sparkles className="size-3.5" strokeWidth={2.5} />
             <span>Planos</span>
           </div>
-          <h2 className="text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
+          <h2 className="pricing-section__title text-balance text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
             Escolha o plano ideal para sua{" "}
-            <span className="section-title-gradient">operação</span>
+            <span className="pricing-section__title-accent section-title-gradient">operação</span>
           </h2>
-          <p className="site-copy mx-auto mt-4 max-w-2xl text-sm sm:text-base">
+          <p className="pricing-section__subtitle site-copy mx-auto mt-4 max-w-2xl text-sm sm:text-base">
             Cancele quando quiser. Acesso imediato após assinatura.
           </p>
         </div>
 
         <BillingToggle billing={billing} onChange={setBilling} />
 
-        <div className="grid items-stretch gap-6 md:grid-cols-2 md:gap-5 xl:grid-cols-4 xl:gap-6">
+        <div className="pricing-section__grid grid items-stretch gap-6 md:grid-cols-2 md:gap-5 xl:grid-cols-4 xl:gap-6">
           {planConfigs.map((plan) => (
             <PlanCard key={plan.id} plan={plan} billing={billing} />
           ))}
           <EnterpriseCard billing={billing} />
         </div>
+
+        <p className="pricing-section__footer site-copy mx-auto mt-10 flex max-w-2xl items-start justify-center gap-2 text-center text-sm sm:mt-12 sm:text-base">
+          <Sparkles
+            className="pricing-section__footer-icon mt-0.5 size-4 shrink-0 text-orange-400"
+            strokeWidth={2}
+          />
+          <span>
+            A IA trabalha enquanto você foca no que importa:{" "}
+            <span className="pricing-section__footer-highlight font-semibold text-orange-400">
+              vender mais.
+            </span>
+          </span>
+        </p>
       </SectionContainer>
     </section>
   );

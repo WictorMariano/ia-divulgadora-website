@@ -33,19 +33,19 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
   }, [activeCategory, search]);
 
   const content = (
-    <>
+    <div className="faq-section">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h2 className="faq-section__title font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Perguntas Frequentes
         </h2>
-        <p className="closing-copy-muted mx-auto mt-4 max-w-xl text-base sm:text-lg">
+        <p className="faq-section__subtitle closing-copy-muted mx-auto mt-4 max-w-xl text-base sm:text-lg">
           Tudo que você precisa saber antes de começar a automatizar suas vendas.
         </p>
       </div>
 
       <div className="relative mx-auto mt-8 max-w-xl">
         <Search
-          className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-400/70"
+          className="faq-section__search-icon pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-400/70"
           strokeWidth={2}
         />
         <input
@@ -64,10 +64,10 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
             type="button"
             onClick={() => setActiveCategory(cat.id)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all sm:px-4 sm:py-2 sm:text-sm",
+              "faq-category-btn inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all sm:px-4 sm:py-2 sm:text-sm",
               activeCategory === cat.id
-                ? "faq-category-active border-sky-400/40 bg-sky-500/15 text-white shadow-[0_0_24px_-8px_rgba(56,189,248,0.5)]"
-                : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:text-white",
+                ? "faq-category-active border-orange-500/45 bg-orange-500/15 text-white"
+                : "faq-category-btn--inactive border-white/10 bg-white/5 text-white/70 hover:border-orange-500/30 hover:text-white",
             )}
           >
             <span aria-hidden>{cat.emoji}</span>
@@ -78,7 +78,7 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
 
       <div className="mx-auto mt-8 max-w-2xl">
         {filteredItems.length === 0 ? (
-          <p className="closing-copy-muted rounded-2xl border border-white/10 bg-white/5 px-6 py-10 text-center text-sm">
+          <p className="faq-empty-state closing-copy-muted rounded-2xl border border-white/10 bg-white/5 px-6 py-10 text-center text-sm">
             Nenhuma pergunta encontrada para &ldquo;{search}&rdquo; nesta categoria.
           </p>
         ) : (
@@ -100,7 +100,7 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
           </Accordion>
         )}
       </div>
-    </>
+    </div>
   );
 
   if (embedded) {
@@ -108,7 +108,7 @@ export function FaqSection({ embedded = false }: FaqSectionProps) {
   }
 
   return (
-    <section id="faq" className="section-full-bleed section-full-bleed--faq">
+    <section id="faq" className="faq-section-standalone section-full-bleed section-full-bleed--faq">
       <SectionFullInner className="relative z-10 py-14 md:py-20">{content}</SectionFullInner>
     </section>
   );

@@ -15,7 +15,7 @@ export function FinalCTA() {
             <span className="section-title-gradient">Comece a lucrar.</span>
           </h2>
           <p className="mx-auto mb-10 max-w-lg text-pretty text-sm text-zinc-200">
-            Junte-se a mais de 1.560 afiliados que escalaram suas operações com a IA Divulgadora.
+            Junte-se a mais de 10 mil afiliados que escalaram suas operações com a IA Divulgadora.
           </p>
           <CtaButton href="#planos" size="lg">
             Garantir meu acesso

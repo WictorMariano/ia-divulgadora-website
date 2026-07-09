@@ -329,7 +329,7 @@ export function ExclusiveFeatures() {
             type="button"
             onClick={() => setShowAllFeatures((prev) => !prev)}
             aria-expanded={showAllFeatures}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-cta/30 hover:bg-cta/10"
+            className="site-button-secondary site-button-secondary--lg"
           >
             {showAllFeatures ? "Ver menos recursos" : "Veja todos os recursos"}
             <ChevronDown

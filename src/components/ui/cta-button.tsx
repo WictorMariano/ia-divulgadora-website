@@ -41,7 +41,7 @@ export function CtaButton({
       {Icon && <Icon className="size-4 shrink-0" strokeWidth={2.25} />}
       <span>{children}</span>
       {showArrow && !Icon && variant === "primary" && (
-        <ArrowRight className="size-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+        <ArrowRight className="size-4 shrink-0" />
       )}
     </span>
   );

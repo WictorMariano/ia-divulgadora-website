@@ -147,12 +147,12 @@ function PlatformCarousel() {
   const nextIndex = (index + 1) % count;
 
   return (
-    <div className="relative mx-auto mt-10 max-w-5xl md:mt-12">
+    <div className="nova-plataforma-carousel relative mx-auto mt-10 max-w-5xl md:mt-12">
       <button
         type="button"
         onClick={() => setIndex(prevIndex)}
         aria-label="Slide anterior"
-        className="absolute left-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-xl border border-white/20 bg-white/5 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:left-2 md:size-11"
+        className="nova-plataforma-carousel__arrow site-icon-button absolute left-0 top-1/2 z-20 size-10 -translate-y-1/2 sm:left-2 md:size-11"
       >
         <ChevronLeft className="size-5" />
       </button>
@@ -161,7 +161,7 @@ function PlatformCarousel() {
         type="button"
         onClick={() => setIndex(nextIndex)}
         aria-label="Próximo slide"
-        className="absolute right-0 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-xl border border-white/20 bg-white/5 text-white backdrop-blur-sm transition-colors hover:bg-white/10 sm:right-2 md:size-11"
+        className="nova-plataforma-carousel__arrow site-icon-button absolute right-0 top-1/2 z-20 size-10 -translate-y-1/2 sm:right-2 md:size-11"
       >
         <ChevronRight className="size-5" />
       </button>
@@ -169,7 +169,7 @@ function PlatformCarousel() {
       <div className="flex items-center justify-center gap-3 px-10 sm:gap-5 sm:px-14 md:gap-6">
         <div
           aria-hidden
-          className="hidden w-[14%] shrink-0 overflow-hidden rounded-xl border border-white/5 opacity-40 blur-[2px] md:block lg:w-[16%]"
+          className="nova-plataforma-carousel__side hidden w-[14%] shrink-0 overflow-hidden rounded-xl border border-white/5 opacity-40 blur-[2px] md:block lg:w-[16%]"
         >
           <img
             src={slides[prevIndex].src}
@@ -179,7 +179,7 @@ function PlatformCarousel() {
         </div>
 
         <div className="relative min-w-0 flex-1">
-          <div className="overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-1.5 shadow-[0_0_60px_-15px_color-mix(in_oklab,var(--cta)_45%,transparent)] backdrop-blur-sm">
+          <div className="nova-plataforma-carousel__main overflow-hidden rounded-2xl border border-cta/25 bg-black/40 p-1.5 shadow-[0_0_60px_-15px_color-mix(in_oklab,var(--cta)_45%,transparent)] backdrop-blur-sm">
             <div className="overflow-hidden rounded-xl border border-white/5">
               <img
                 src={slides[index].src}
@@ -192,7 +192,7 @@ function PlatformCarousel() {
 
         <div
           aria-hidden
-          className="hidden w-[14%] shrink-0 overflow-hidden rounded-xl border border-white/5 opacity-40 blur-[2px] md:block lg:w-[16%]"
+          className="nova-plataforma-carousel__side hidden w-[14%] shrink-0 overflow-hidden rounded-xl border border-white/5 opacity-40 blur-[2px] md:block lg:w-[16%]"
         >
           <img
             src={slides[nextIndex].src}
@@ -202,7 +202,7 @@ function PlatformCarousel() {
         </div>
       </div>
 
-      <div className="mt-5 flex justify-center gap-2">
+      <div className="nova-plataforma-carousel__dots mt-5 flex justify-center gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -210,8 +210,8 @@ function PlatformCarousel() {
             aria-label={`Ir para slide ${i + 1}`}
             onClick={() => setIndex(i)}
             className={cn(
-              "size-2 rounded-full transition-colors",
-              i === index ? "bg-cta" : "bg-white/25 hover:bg-white/40",
+              "nova-plataforma-carousel__dot size-2 rounded-full transition-colors",
+              i === index ? "nova-plataforma-carousel__dot--active bg-cta" : "bg-white/25 hover:bg-white/40",
             )}
           />
         ))}
@@ -228,21 +228,21 @@ export function NovaPlataforma() {
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_12%,transparent),transparent_55%)]"
+        className="nova-plataforma-section__glow pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--cta)_12%,transparent),transparent_55%)]"
       />
 
       <SectionContainer className="relative z-10">
         <div className="text-center">
-          <div className="section-badge mb-5 backdrop-blur-sm">
+          <div className="nova-plataforma-section__badge section-badge mb-5 backdrop-blur-sm">
             <Zap className="size-3.5" strokeWidth={2.5} />
             <span>Nova plataforma</span>
           </div>
 
-          <h2 className="mx-auto max-w-3xl text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.5rem]">
+          <h2 className="nova-plataforma-section__title mx-auto max-w-3xl text-balance text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-[2.5rem]">
             Seus grupos podem lucrar muito mais quando você{" "}
             <span className="section-title-gradient">mede o que importa</span>
           </h2>
-          <p className="site-copy mx-auto mt-4 max-w-2xl text-pretty text-sm leading-relaxed sm:text-base">
+          <p className="nova-plataforma-section__subtitle site-copy mx-auto mt-4 max-w-2xl text-pretty text-sm leading-relaxed sm:text-base">
             Você investe para encher seus grupos, mas sem acompanhar os números certos acaba
             contando gente que entrou e saiu no mesmo dia.
           </p>

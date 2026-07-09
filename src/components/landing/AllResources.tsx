@@ -300,7 +300,7 @@ export function AllResources() {
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-cta/30 hover:bg-cta/10"
+            className="site-button-secondary"
           >
             {expanded ? (
               <>
