@@ -7,20 +7,18 @@ type BrandLogoProps = {
 };
 
 export function BrandLogo({ className }: BrandLogoProps) {
-  const sharedClass = cn("w-auto object-contain object-left", className);
-
   return (
-    <span className="inline-block leading-none">
+    <span className={cn("brand-logo-wrap inline-block leading-none", className)}>
       <img
         src={logoDark}
         alt="IA Divulgadora"
-        className={cn(sharedClass, "brand-logo brand-logo--dark")}
+        className="brand-logo brand-logo--dark h-full w-auto max-w-full object-contain object-left"
         draggable={false}
       />
       <img
         src={logoLight}
         alt="IA Divulgadora"
-        className={cn(sharedClass, "brand-logo brand-logo--light")}
+        className="brand-logo brand-logo--light h-full w-auto max-w-full object-contain object-left"
         draggable={false}
       />
     </span>

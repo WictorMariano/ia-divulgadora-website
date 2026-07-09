@@ -11,6 +11,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import logoUrl from "../assets/logo.png?url";
+import { getThemeInitScript } from "../lib/theme";
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -72,7 +73,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "color-scheme", content: "light dark" },
+      { name: "theme-color", content: "#050608" },
+      { name: "supported-color-schemes", content: "light dark" },
       { title: "IA Divulgadora — Automação de afiliados com Inteligência Artificial" },
       { name: "description", content: "Monitore grupos do WhatsApp 24/7, gere links de afiliado e dispare ofertas automaticamente. A IA que vende enquanto você dorme." },
       { property: "og:title", content: "IA Divulgadora — Automação de afiliados com Inteligência Artificial" },
@@ -108,7 +112,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("iad-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");document.documentElement.style.colorScheme=t==="light"?"light":"dark"}catch(e){}})();`,
+            __html: getThemeInitScript(),
           }}
         />
       </head>
