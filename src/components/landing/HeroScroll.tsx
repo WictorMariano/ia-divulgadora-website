@@ -1,5 +1,5 @@
 import { ContainerScroll } from "@/components/ui/container-scroll";
-import dashboardImg from "@/assets/dashboard-v1.jpeg";
+import shopeeSlideImg from "@/assets/slide-shopee.jpeg";
 import { Results } from "./Results";
 import { SectionCta } from "./SectionCta";
 
@@ -7,16 +7,17 @@ export function HeroScroll() {
   const title = (
     <div className="flex flex-col items-center px-4 sm:px-6">
       <h2 className="max-w-4xl text-balance text-center text-4xl font-bold leading-[1.15] tracking-tight text-white sm:text-5xl sm:leading-[1.12] lg:text-6xl">
-        Monitore Grupos e gerencie tudo em{" "}
-        <span className="section-title-gradient">um só painel</span>
+        Ganhe mais em cada venda com a{" "}
+        <span className="section-title-gradient">Shopee Vantagens</span>
       </h2>
 
-      <p className="mt-6 mb-4 max-w-3xl text-pretty text-center text-base leading-relaxed site-copy sm:mt-8 sm:mb-5 sm:text-lg sm:leading-[1.7] md:mb-6">
-        Organize promoções, cupons, lojas e links de afiliados de forma simples,
-        centralizada e eficiente. Dispare posts de alta conversão automaticamente.{" "}
-        <span className="site-subtle">
-          A inteligência artificial que trabalha enquanto você dorme.
-        </span>
+      <p className="mt-6 max-w-3xl text-pretty text-center text-base leading-relaxed site-copy sm:mt-8 sm:text-lg sm:leading-[1.7]">
+        Uma vantagem exclusiva para clientes da IA Divulgadora. Acesse produtos com
+        comissões extras na Shopee, descubra quanto você pode ganhar por venda e
+        divulgue tudo em poucos cliques.
+      </p>
+      <p className="mt-4 mb-10 max-w-3xl text-pretty text-center text-base font-medium leading-relaxed site-copy sm:mt-5 sm:mb-14 sm:text-lg sm:leading-[1.7] md:mb-16">
+        Mais comissão em cada venda. Mais oportunidades para aumentar seus ganhos.
       </p>
     </div>
   );
@@ -33,12 +34,12 @@ export function HeroScroll() {
       <div className="relative z-10">
         <ContainerScroll titleComponent={title}>
           <img
-            src={dashboardImg}
-            alt="Painel da IA Divulgadora com métricas de afiliados, conversão e disparos automáticos"
+            src={shopeeSlideImg}
+            alt="Shopee Vantagens — produtos com comissões extras exclusivos para clientes da IA Divulgadora"
             width={1600}
-            height={900}
+            height={819}
             draggable={false}
-            className="block h-full w-full object-cover object-top"
+            className="block h-auto w-full object-contain object-center"
           />
         </ContainerScroll>
 

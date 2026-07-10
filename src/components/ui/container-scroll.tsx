@@ -102,9 +102,9 @@ function ScrollCard({
         boxShadow:
           "0 -1px 0 rgb(56 189 248 / 0.25), 0 0 60px -10px rgb(56 189 248 / 0.35), 0 0 80px -15px rgb(251 146 60 / 0.28), 0 24px 48px -12px rgb(0 0 0 / 0.65), 0 48px 80px -24px rgb(0 0 0 / 0.5)",
       }}
-      className="panel-showcase-card relative mx-auto -mt-8 w-full max-w-5xl overflow-hidden rounded-[30px] border border-white/20 bg-black/95 p-2 md:-mt-10 md:p-4"
+      className="panel-showcase-card relative mx-auto mt-2 w-full max-w-5xl overflow-hidden rounded-[30px] border border-white/20 bg-black/95 p-2 md:mt-4 md:p-4"
     >
-      <div className="flex aspect-video w-full flex-col overflow-hidden rounded-2xl bg-zinc-950 md:rounded-2xl md:p-3">
+      <div className="w-full overflow-hidden rounded-2xl bg-zinc-950 md:rounded-2xl md:p-3">
         {children}
       </div>
     </motion.div>
