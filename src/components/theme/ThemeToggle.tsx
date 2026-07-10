@@ -10,12 +10,8 @@ type ThemeToggleProps = {
 };
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, setTheme, usesSystemTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const isLight = theme === "light";
-
-  if (usesSystemTheme) {
-    return null;
-  }
 
   return (
     <div

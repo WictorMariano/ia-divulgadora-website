@@ -11,6 +11,7 @@ import { MarketplaceIntegrations } from "./MarketplaceIntegrations";
 import { NovaPlataforma } from "./NovaPlataforma";
 import { AllResources } from "./AllResources";
 import { Pricing } from "./Pricing";
+import { FreeSignup } from "./FreeSignup";
 import { Testimonials } from "./Testimonials";
 import { Support } from "./Support";
 import { ClosingExperience } from "./closing/ClosingExperience";
@@ -33,6 +34,7 @@ export function Landing() {
           <AllResources />
           <Pricing />
           <Support />
+          <FreeSignup />
           <Testimonials />
           <ClosingExperience />
         </main>

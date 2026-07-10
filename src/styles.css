@@ -1905,6 +1905,62 @@
     padding-inline: 1rem;
   }
 
+  .pricing-billing-toggle__shell {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1.35rem;
+  }
+
+  .pricing-billing-toggle__discount {
+    position: absolute;
+    top: 0;
+    left: 75%;
+    z-index: 2;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    background: rgb(16 185 129 / 0.15);
+    color: rgb(52 211 153);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  @media (max-width: 767px) {
+    .pricing-billing-toggle {
+      width: 100%;
+      max-width: none;
+      justify-content: stretch;
+      padding-top: 0.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-billing-toggle__shell {
+      width: 100%;
+    }
+
+    .pricing-billing-toggle__group {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.15rem;
+    }
+
+    .pricing-billing-toggle__item {
+      width: 100%;
+      justify-content: center;
+      padding-inline: 0.75rem;
+    }
+
+    .pricing-billing-toggle__discount {
+      box-shadow: 0 4px 12px -6px rgb(0 0 0 / 0.45);
+    }
+  }
+
   @media (min-width: 640px) {
     .landing-container,
     .landing-container-wide {
@@ -1956,16 +2012,6 @@
 
     .section-cta-row > * {
       width: 100%;
-    }
-
-    .pricing-billing-toggle {
-      width: 100%;
-      max-width: 20rem;
-    }
-
-    .pricing-billing-toggle > div {
-      width: 100%;
-      justify-content: center;
     }
 
     .theme-toggle {
@@ -3144,27 +3190,620 @@
       linear-gradient(135deg, #06080f 0%, #0a1220 45%, #06080f 100%);
   }
 
-  .support-section {
+  /* Free signup / Cadastro grátis */
+  .free-signup-section {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 28rem;
-    border-top: 1px solid rgb(255 255 255 / 6%);
-    background-color: #050608;
+    overflow: hidden;
+    border-top: 1px solid var(--site-border);
+    background:
+      radial-gradient(ellipse 55% 45% at 88% 12%, rgb(249 115 22 / 0.16), transparent 58%),
+      radial-gradient(ellipse 50% 42% at 8% 88%, rgb(56 189 248 / 0.12), transparent 55%),
+      linear-gradient(180deg, #06080f 0%, #0a101c 50%, #06080f 100%);
+  }
+
+  .free-signup-section__media {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     overflow: hidden;
   }
 
   @media (min-width: 1024px) {
-    .support-section {
+    .free-signup-section__media {
       display: block;
-      min-height: 42rem;
+    }
+
+    .free-signup-section {
+      background: #06080f;
+    }
+  }
+
+  .free-signup-section__bg {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .free-signup-section__bg--dark {
+    display: none;
+  }
+
+  .free-signup-section__bg--light {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__bg--dark {
+      display: block;
+    }
+  }
+
+  .free-signup-section__overlay--desktop {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgb(6 8 15 / 0.82) 0%,
+        rgb(6 8 15 / 0.48) 34%,
+        rgb(6 8 15 / 0.18) 58%,
+        rgb(6 8 15 / 0.42) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgb(6 8 15 / 0.2) 0%,
+        transparent 28%,
+        transparent 72%,
+        rgb(6 8 15 / 0.35) 100%
+      );
+  }
+
+  .free-signup-section__atmosphere {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__atmosphere {
+      display: none;
+    }
+  }
+
+  .free-signup-section__glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(48px);
+    opacity: 0.55;
+  }
+
+  .free-signup-section__glow--orange {
+    top: -12%;
+    right: -8%;
+    width: min(42vw, 28rem);
+    height: min(42vw, 28rem);
+    background: rgb(249 115 22 / 0.28);
+  }
+
+  .free-signup-section__glow--blue {
+    bottom: -18%;
+    left: -10%;
+    width: min(48vw, 32rem);
+    height: min(48vw, 32rem);
+    background: rgb(56 189 248 / 0.2);
+  }
+
+  .free-signup-section__dots {
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    background-image: radial-gradient(rgb(255 255 255 / 0.35) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  }
+
+  .free-signup-section__page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 2.75rem 1.25rem 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .free-signup-section__page {
+      padding: 3.25rem 2rem 3.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__page {
+      padding: 3.5rem clamp(2rem, 4vw, 4rem) 3.75rem;
+    }
+  }
+
+  .free-signup-section__layout {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__layout {
+      grid-template-columns: minmax(0, 1.2fr) minmax(19rem, 23rem);
+      gap: 2rem 3rem;
+      align-items: center;
+    }
+  }
+
+  .free-signup-section__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    min-width: 0;
+  }
+
+  .free-signup-section__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 34rem;
+    padding: 1.75rem 1.25rem 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--site-border-strong);
+    background: rgb(12 16 28 / 0.92);
+    box-shadow:
+      0 18px 40px -24px rgb(0 0 0 / 0.45),
+      0 6px 16px -12px rgb(0 0 0 / 0.25);
+  }
+
+  @media (min-width: 640px) {
+    .free-signup-section__copy {
+      padding: 2rem 1.5rem 2.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__copy {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .free-signup-section__mobile-visual {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 1.25rem;
+  }
+
+  .free-signup-section__mobile-visual-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center center;
+  }
+
+  .free-signup-section__mobile-visual-img--light {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__mobile-visual {
+      display: none;
+    }
+  }
+
+  .free-signup-section__form-wrap {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__form-wrap {
+      display: flex;
+      justify-content: flex-end;
+      align-self: center;
+    }
+  }
+
+  .free-signup-section__title {
+    font-family: var(--font-display, inherit);
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: var(--site-heading) !important;
+    margin-bottom: 0.85rem;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 640px) {
+    .free-signup-section__title {
+      font-size: 2.15rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__title {
+      font-size: 2.45rem;
+      margin-bottom: 0.95rem;
+    }
+  }
+
+  .free-signup-section__title-accent,
+  .free-signup-section__brand,
+  .free-signup-section__card-accent {
+    color: rgb(249 115 22) !important;
+  }
+
+  .free-signup-section__brand {
+    font-weight: 700;
+  }
+
+  .free-signup-section__subtitle {
+    max-width: 32rem;
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: var(--site-text-muted) !important;
+    margin-bottom: 1.25rem;
+  }
+
+  .free-signup-section__subtitle-line {
+    display: inline;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .free-signup-section__subtitle-line {
+      display: block;
+    }
+  }
+
+  .free-signup-section__benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .free-signup-section__benefit {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--site-heading) !important;
+  }
+
+  .free-signup-section__benefit-icon {
+    display: inline-flex;
+    width: 1.65rem;
+    height: 1.65rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: #fff;
+    background: rgb(249 115 22);
+    border: 0;
+  }
+
+  .free-signup-section__card {
+    width: 100%;
+    max-width: 23rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.15rem 1.15rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--site-border-strong);
+    background: rgb(12 16 28 / 0.9);
+    box-shadow:
+      0 20px 48px -24px rgb(0 0 0 / 0.5),
+      0 8px 20px -14px rgb(0 0 0 / 0.28);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__card {
+      max-width: none;
+      width: 100%;
+      margin-inline: 0;
+      padding: 1.35rem 1.35rem 1.2rem;
+    }
+  }
+
+  .free-signup-section__card-header {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .free-signup-section__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-bottom: 0.65rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(249 115 22 / 28%);
+    background: rgb(249 115 22 / 0.12);
+    color: rgb(249 115 22) !important;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .free-signup-section__card-header h3 {
+    font-family: var(--font-display, inherit);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--site-heading) !important;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  @media (min-width: 1024px) {
+    .free-signup-section__card-header h3 {
+      font-size: 1.35rem;
+    }
+  }
+
+  .free-signup-section__card-header p {
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+    color: var(--site-text-muted) !important;
+  }
+
+  .free-signup-section__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .free-signup-section__label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--site-text-muted) !important;
+  }
+
+  .free-signup-section__field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--site-border-strong);
+    border-radius: 0.75rem;
+    background: rgb(255 255 255 / 0.04);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .free-signup-section__field:focus-within {
+    border-color: rgb(249 115 22 / 55%);
+    box-shadow: 0 0 0 3px rgb(249 115 22 / 14%);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .free-signup-section__field-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    color: var(--site-text-subtle) !important;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .free-signup-section__field-icon--whatsapp {
+    color: #25d366 !important;
+  }
+
+  .free-signup-section__field input {
+    width: 100%;
+    height: 2.75rem;
+    border: 0;
+    background: transparent;
+    padding: 0 0.85rem 0 2.55rem;
+    font-size: 0.9rem;
+    color: var(--site-heading) !important;
+    outline: none;
+  }
+
+  .free-signup-section__field input::placeholder {
+    color: var(--site-text-subtle) !important;
+  }
+
+  .free-signup-section__submit {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 2.85rem;
+    margin-top: 0.2rem;
+    border: 1px solid rgb(234 88 12);
+    border-radius: 0.75rem;
+    background: rgb(249 115 22);
+    color: #fff !important;
+    font-family: var(--font-display, inherit);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .free-signup-section__submit:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #0a0a0a !important;
+  }
+
+  .free-signup-section__submit:active {
+    background: rgb(234 88 12);
+    border-color: rgb(234 88 12);
+    color: #fff !important;
+  }
+
+  .free-signup-section__secure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--site-text-subtle) !important;
+  }
+
+  .free-signup-section__divider {
+    height: 1px;
+    margin: 0.9rem 0;
+    background: var(--site-border);
+  }
+
+  .free-signup-section__perks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .free-signup-section__perk {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .free-signup-section__perk-icon {
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.4rem;
+  }
+
+  .free-signup-section__perk-icon-circle {
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgb(249 115 22 / 0.12);
+    color: rgb(249 115 22);
+  }
+
+  .free-signup-section__perk-icon-circle svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .free-signup-section__perk strong {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--site-heading) !important;
+    line-height: 1.2;
+  }
+
+  .free-signup-section__perk span {
+    display: block;
+    margin-top: 0.1rem;
+    font-size: 0.65rem;
+    color: var(--site-text-muted) !important;
+    line-height: 1.2;
+  }
+
+  .support-section {
+    position: relative;
+    width: 100%;
+    border-top: 1px solid rgb(255 255 255 / 6%);
+    background:
+      radial-gradient(ellipse 55% 50% at 88% 42%, rgb(56 189 248 / 6%), transparent 58%),
+      linear-gradient(180deg, #06080f 0%, #0a1220 48%, #06080f 100%);
+    padding: 2.5rem 1.25rem 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .support-section {
+      padding: 3.25rem 2rem 3.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .support-section {
+      padding: 3.75rem 2.5rem 4.25rem;
+    }
+  }
+
+  .support-section__shell {
+    position: relative;
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 10%);
+    background: #050608;
+    box-shadow:
+      0 24px 60px -28px rgb(0 0 0 / 55%),
+      0 8px 24px -16px rgb(0 0 0 / 35%);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .support-section__shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      align-items: stretch;
+      min-height: 34rem;
+      border-radius: 1.75rem;
     }
   }
 
   .support-section__media {
     position: relative;
-    min-height: 16rem;
+    min-height: 14rem;
     background-color: #050608;
     overflow: hidden;
   }
@@ -3197,7 +3836,7 @@
 
   @media (min-width: 768px) {
     .support-section__media {
-      min-height: 22rem;
+      min-height: 18rem;
     }
 
     .support-section__media-bg {
@@ -3207,9 +3846,9 @@
 
   @media (min-width: 1024px) {
     .support-section__media {
-      position: absolute;
-      inset: 0;
+      position: relative;
       min-height: 100%;
+      height: 100%;
     }
 
     .support-section__media-bg {
@@ -3224,8 +3863,8 @@
     pointer-events: none;
     background: linear-gradient(
       180deg,
-      rgb(5 6 8 / 0.35) 0%,
-      rgb(5 6 8 / 0.55) 100%
+      rgb(5 6 8 / 0.2) 0%,
+      rgb(5 6 8 / 0.45) 100%
     );
   }
 
@@ -3233,11 +3872,10 @@
     .support-section__overlay {
       background: linear-gradient(
         90deg,
-        rgb(5 6 8 / 0.08) 0%,
-        rgb(5 6 8 / 0.3) 52%,
-        rgb(5 6 8 / 0.88) 66%,
-        rgb(5 6 8 / 0.98) 70%,
-        rgb(5 6 8 / 1) 100%
+        rgb(5 6 8 / 0.05) 0%,
+        rgb(5 6 8 / 0.2) 48%,
+        rgb(5 6 8 / 0.72) 72%,
+        rgb(5 6 8 / 0.92) 100%
       );
     }
   }
@@ -3248,13 +3886,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2.75rem 1.5rem 3.25rem;
+    padding: 2rem 1.25rem 2.25rem;
     background: rgb(5 6 8 / 0.98);
   }
 
   @media (min-width: 768px) {
     .support-section__content {
-      padding: 3.5rem 2.25rem 4.25rem;
+      padding: 2.5rem 2rem 2.75rem;
     }
   }
 
@@ -3262,8 +3900,8 @@
     .support-section__content {
       display: flex;
       align-items: center;
-      min-height: 42rem;
-      padding: clamp(2.5rem, 4vw, 4.5rem) clamp(1.75rem, 5vw, 5rem);
+      min-height: 100%;
+      padding: clamp(2rem, 3.5vw, 3.25rem) clamp(1.5rem, 3.5vw, 3rem);
       background: transparent;
     }
   }
@@ -3285,12 +3923,12 @@
   @media (min-width: 1024px) {
     .support-section__inner {
       flex: 0 0 auto;
-      width: 50%;
-      max-width: 50%;
+      width: 100%;
+      max-width: 28rem;
       margin-left: auto;
       margin-right: 0;
-      padding-left: clamp(0.75rem, 2.5vw, 1.5rem);
-      transform: translateX(clamp(-2.5rem, -4vw, -1rem));
+      padding-left: 0;
+      transform: none;
     }
   }
 
@@ -3828,6 +4466,24 @@
   }
 
   /* ── Light mode: ajustes globais de utilitários Tailwind ── */
+  [data-theme="light"] .cta-glow-button:hover,
+  [data-theme="light"] .cta-outline-button:hover,
+  [data-theme="light"] .site-button-secondary:hover,
+  [data-theme="light"] .free-signup-section__submit:hover {
+    background: #0a0a0a !important;
+    border-color: #0a0a0a !important;
+    color: #fff !important;
+  }
+
+  [data-theme="light"] .cta-glow-button:active,
+  [data-theme="light"] .cta-outline-button:active,
+  [data-theme="light"] .site-button-secondary:active,
+  [data-theme="light"] .free-signup-section__submit:active {
+    background: #171717 !important;
+    border-color: #171717 !important;
+    color: #fff !important;
+  }
+
   [data-theme="light"] .text-white {
     color: var(--site-heading);
   }
@@ -4785,6 +5441,7 @@
     background: rgb(15 20 32 / 4%) !important;
     border-radius: 9999px;
     padding: 0.25rem;
+    overflow: visible;
   }
 
   [data-theme="light"] .pricing-billing-toggle__item {
@@ -4940,9 +5597,9 @@
 
   [data-theme="light"] .pricing-plan-card .cta-outline-button:hover,
   [data-theme="light"] .pricing-enterprise-consultant:hover {
-    background: rgb(249 115 22 / 8%) !important;
-    border-color: rgb(249 115 22 / 55%) !important;
-    color: rgb(194 65 12) !important;
+    background: #0a0a0a !important;
+    border-color: #0a0a0a !important;
+    color: #fff !important;
   }
 
   [data-theme="light"] .pricing-section__footer {
@@ -4955,8 +5612,6 @@
 
   /* Support — light */
   [data-theme="light"] .support-section {
-    display: flex;
-    flex-direction: column;
     background:
       radial-gradient(ellipse 55% 50% at 88% 42%, rgb(56 189 248 / 14%), transparent 58%),
       radial-gradient(ellipse 40% 35% at 95% 78%, rgb(251 146 60 / 8%), transparent 55%),
@@ -4964,32 +5619,35 @@
     border-top-color: rgb(15 20 32 / 6%);
   }
 
+  [data-theme="light"] .support-section__shell {
+    background: #fff;
+    border-color: rgb(15 20 32 / 8%);
+    box-shadow:
+      0 24px 60px -28px rgb(15 20 32 / 14%),
+      0 8px 24px -16px rgb(15 20 32 / 8%);
+  }
+
   @media (min-width: 1024px) {
-    [data-theme="light"] .support-section {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-      align-items: stretch;
-      min-height: 42rem;
+    [data-theme="light"] .support-section__shell {
+      min-height: 34rem;
     }
   }
 
   [data-theme="light"] .support-section__media {
     background-color: #eef4fb;
-    min-height: 18rem;
+    min-height: 14rem;
   }
 
   @media (min-width: 768px) {
     [data-theme="light"] .support-section__media {
-      min-height: 24rem;
+      min-height: 18rem;
     }
   }
 
   @media (min-width: 1024px) {
     [data-theme="light"] .support-section__media {
       position: relative;
-      grid-column: 1;
-      grid-row: 1;
-      min-height: 42rem;
+      min-height: 100%;
       height: 100%;
     }
   }
@@ -5023,27 +5681,25 @@
 
   [data-theme="light"] .support-section__content {
     background: transparent;
-    padding: 1.5rem 1.25rem 2.75rem;
+    padding: 1.5rem 1.25rem 1.75rem;
     justify-content: center;
   }
 
   @media (min-width: 768px) {
     [data-theme="light"] .support-section__content {
-      padding: 2rem 2rem 3.5rem;
+      padding: 2rem 1.75rem 2.25rem;
     }
   }
 
   @media (min-width: 1024px) {
     [data-theme="light"] .support-section__content {
       position: relative;
-      grid-column: 2;
-      grid-row: 1;
       z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 42rem;
-      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+      min-height: 100%;
+      padding: clamp(1.75rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 2.5rem);
     }
   }
 
@@ -5060,7 +5716,7 @@
       width: min(100%, 28.5rem);
       max-width: 28.5rem;
       margin-left: auto;
-      margin-right: clamp(0.5rem, 2vw, 2rem);
+      margin-right: 0;
     }
   }
 
@@ -5325,9 +5981,9 @@
   }
 
   [data-theme="light"] .testimonials-section-bg .cta-outline-button:hover {
-    background: rgb(249 115 22 / 8%) !important;
-    border-color: rgb(249 115 22 / 55%) !important;
-    color: rgb(194 65 12) !important;
+    background: #0a0a0a !important;
+    border-color: #0a0a0a !important;
+    color: #fff !important;
   }
 
   [data-theme="light"] .summary-callout {
@@ -5355,4 +6011,163 @@
   [data-theme="light"] ::selection {
     color: var(--site-heading);
   }
+
+  /* Free signup / Cadastro grátis — light */
+  [data-theme="light"] .free-signup-section {
+    background:
+      radial-gradient(ellipse 55% 45% at 88% 12%, rgb(249 115 22 / 0.1), transparent 58%),
+      radial-gradient(ellipse 50% 42% at 8% 88%, rgb(56 189 248 / 0.08), transparent 55%),
+      linear-gradient(180deg, #f7f8fc 0%, #f3f5fa 50%, #f7f8fc 100%);
+    border-top-color: var(--site-border);
+  }
+
+  [data-theme="light"] .free-signup-section__bg--dark {
+    display: none !important;
+  }
+
+  [data-theme="light"] .free-signup-section__bg--light {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    [data-theme="light"] .free-signup-section {
+      background: #f7f8fc;
+    }
+
+    [data-theme="light"] .free-signup-section__bg--light {
+      display: block;
+    }
+  }
+
+  [data-theme="light"] .free-signup-section__overlay--desktop {
+    background:
+      linear-gradient(
+        90deg,
+        rgb(255 255 255 / 0.96) 0%,
+        rgb(255 255 255 / 0.88) 28%,
+        rgb(255 255 255 / 0.55) 52%,
+        rgb(247 248 252 / 0.42) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.35) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgb(247 248 252 / 0.4) 100%
+      );
+  }
+
+  [data-theme="light"] .free-signup-section__glow--orange {
+    background: rgb(249 115 22 / 0.2);
+    opacity: 0.65;
+  }
+
+  [data-theme="light"] .free-signup-section__glow--blue {
+    background: rgb(56 189 248 / 0.16);
+    opacity: 0.6;
+  }
+
+  [data-theme="light"] .free-signup-section__dots {
+    opacity: 0.22;
+    background-image: radial-gradient(rgb(15 20 32 / 0.2) 1px, transparent 1px);
+  }
+
+  [data-theme="light"] .free-signup-section__copy {
+    background: #fff;
+    border-color: var(--site-border);
+    box-shadow:
+      0 16px 36px -22px rgb(15 20 32 / 0.14),
+      0 6px 14px -10px rgb(15 20 32 / 0.08);
+  }
+
+  @media (min-width: 1024px) {
+    [data-theme="light"] .free-signup-section__copy {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+  }
+
+  [data-theme="light"] .free-signup-section__mobile-visual-img--dark {
+    display: none;
+  }
+
+  [data-theme="light"] .free-signup-section__mobile-visual-img--light {
+    display: block;
+  }
+
+  [data-theme="light"] .free-signup-section__benefit-icon {
+    color: #fff;
+    background: rgb(249 115 22);
+  }
+
+  [data-theme="light"] .free-signup-section__card {
+    background: #fff;
+    border-color: var(--site-border);
+    box-shadow:
+      0 18px 44px -22px rgb(15 20 32 / 0.16),
+      0 6px 16px -12px rgb(15 20 32 / 0.08);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  [data-theme="light"] .free-signup-section__badge {
+    border-color: rgb(249 115 22 / 22%);
+    background: rgb(249 115 22 / 0.1);
+  }
+
+  [data-theme="light"] .free-signup-section__field {
+    border-color: rgb(15 20 32 / 0.1);
+    background: #f8f9fc;
+  }
+
+  [data-theme="light"] .free-signup-section__field:focus-within {
+    background: #fff;
+  }
+
+  [data-theme="light"] .free-signup-section__field-icon {
+    color: rgb(249 115 22) !important;
+  }
+
+  [data-theme="light"] .free-signup-section__field-icon--whatsapp {
+    color: #25d366 !important;
+  }
+
+  [data-theme="light"] .free-signup-section__divider {
+    background: rgb(15 20 32 / 0.08);
+  }
+
+  [data-theme="light"] .free-signup-section__perk-icon-circle {
+    background: rgb(249 115 22 / 0.1);
+    color: rgb(249 115 22);
+  }
+
+
+}
+
+/* Unlayered: force perk icons centered (beats @layer utilities) */
+.free-signup-section__perk-icon,
+.free-signup-section__perk-icon-circle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.free-signup-section__perk-icon-circle {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  border-radius: 9999px !important;
+  line-height: 0 !important;
+}
+
+.free-signup-section__perk-icon-circle svg {
+  display: block !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: none !important;
+  position: static !important;
+  transform: none !important;
+  inset: auto !important;
 }

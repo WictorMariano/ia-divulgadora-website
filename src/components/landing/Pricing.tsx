@@ -154,34 +154,36 @@ function BillingToggle({
   onChange: (cycle: BillingCycle) => void;
 }) {
   return (
-    <div className="pricing-billing-toggle mb-10 flex justify-center">
-      <ToggleGroup
-        type="single"
-        value={billing}
-        onValueChange={(value) => {
-          if (value === "mensal" || value === "anual") onChange(value);
-        }}
-        aria-label="Selecionar ciclo de cobrança"
-        className="pricing-billing-toggle__group rounded-full border border-white/15 bg-white/5 p-1"
-      >
-        <ToggleGroupItem
-          value="mensal"
-          aria-label="Cobrança mensal"
-          className="pricing-billing-toggle__item rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
+    <div className="pricing-billing-toggle mb-10 flex justify-center pt-5">
+      <div className="pricing-billing-toggle__shell">
+        <span className="pricing-billing-toggle__discount" aria-hidden>
+          Economize {ANNUAL_DISCOUNT_PERCENT}%
+        </span>
+        <ToggleGroup
+          type="single"
+          value={billing}
+          onValueChange={(value) => {
+            if (value === "mensal" || value === "anual") onChange(value);
+          }}
+          aria-label="Selecionar ciclo de cobrança"
+          className="pricing-billing-toggle__group rounded-full border border-white/15 bg-white/5 p-1"
         >
-          Mensal
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="anual"
-          aria-label="Cobrança anual"
-          className="pricing-billing-toggle__item pricing-billing-toggle__item--annual relative rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
-        >
-          Anual
-          <span className="pricing-billing-toggle__discount absolute -top-3 right-0 whitespace-nowrap rounded-full bg-emerald-500/15 px-1.5 text-[10px] font-semibold text-emerald-400">
-            Economize {ANNUAL_DISCOUNT_PERCENT}%
-          </span>
-        </ToggleGroupItem>
-      </ToggleGroup>
+          <ToggleGroupItem
+            value="mensal"
+            aria-label="Cobrança mensal"
+            className="pricing-billing-toggle__item rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
+          >
+            Mensal
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="anual"
+            aria-label={`Cobrança anual. Economize ${ANNUAL_DISCOUNT_PERCENT}%`}
+            className="pricing-billing-toggle__item pricing-billing-toggle__item--annual relative rounded-full px-5 py-2 text-sm font-semibold text-[var(--site-text-muted)] transition-colors hover:bg-white hover:text-neutral-950 data-[state=on]:bg-cta/15 data-[state=on]:text-white data-[state=on]:shadow-sm data-[state=on]:ring-1 data-[state=on]:ring-cta/35"
+          >
+            Anual
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
     </div>
   );
 }
