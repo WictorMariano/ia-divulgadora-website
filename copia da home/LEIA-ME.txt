@@ -1,0 +1,61 @@
+# Cópia da Home — IA Divulgadora (para PHP)
+
+Esta pasta é uma **cópia estática** da landing page, feita para o site do cliente em **PHP**.
+
+O projeto principal continua em **React** (TanStack Start) e **não foi alterado** para gerar isso.
+React **não roda dentro do PHP**. O que o PHP faz é **servir** HTML + CSS + JS — e é exatamente isso que esta pasta entrega.
+
+## O que tem aqui
+
+| Arquivo | Função |
+|---------|--------|
+| `index.php` | Página completa (use este arquivo na hospedagem PHP) |
+| `home.html` | Mesmo conteúdo em HTML puro |
+| `assets/` | Imagens e CSS do site |
+| `css/php-home.css` | Ajustes extras da cópia |
+| `js/site.js` | Tema claro/escuro, FAQ, formulário WhatsApp, âncoras |
+| `embed.php` | Conteúdo para `include` no body de outra página |
+| `embed-assets.php` | CSS/JS para colocar no `<head>` da página-pai |
+
+## Como integrar no site do cliente
+
+### Opção A — Pasta própria (recomendado)
+
+1. Envie a pasta inteira `copia da home` para o servidor PHP (FTP/cPanel).
+2. Acesse: `https://site-do-cliente.com/copia%20da%20home/`  
+   (ou renomeie a pasta para `home-ia` / `landing` sem espaços).
+3. Pronto: o `index.php` carrega a página.
+
+### Opção B — Embed em uma página existente
+
+No `<head>` da página do cliente:
+
+```php
+<?php
+  $IA_DIVULGADORA_HOME_BASE = '/caminho/para/copia-da-home/';
+  include $_SERVER['DOCUMENT_ROOT'] . '/caminho/para/copia-da-home/embed-assets.php';
+?>
+```
+
+No `<body>`:
+
+```php
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/caminho/para/copia-da-home/embed.php'; ?>
+```
+
+### Opção C — iframe
+
+```html
+<iframe src="/copia-da-home/" style="width:100%;min-height:100vh;border:0"></iframe>
+```
+
+## Limitações (importante)
+
+- Algumas animações/carrosséis avançados do React podem ficar mais simples nesta cópia.
+- Tema, formulário de cadastro (WhatsApp), FAQ e links âncora funcionam via `js/site.js`.
+- Para atualizar esta cópia no futuro, é preciso gerar de novo a partir do projeto React.
+
+## Relação com o projeto principal
+
+- Site principal (React/Vercel): desenvolvimento e versão online moderna.
+- Esta pasta: entrega para integração PHP do cliente, sem Node.js no servidor dele.

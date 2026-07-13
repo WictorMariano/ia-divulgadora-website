@@ -1,0 +1,15 @@
+/* Ajustes extras da cópia PHP (não altera o projeto React principal) */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Garante que âncoras não fiquem sob headers fixos */
+[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Evita overflow horizontal residual do export */
+body {
+  overflow-x: clip;
+}
